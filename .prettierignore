@@ -1,0 +1,8 @@
+node_modules
+.next
+out
+coverage
+package-lock.json
+CleanSaans_Project_Guide.pdf
+AGENT.md
+AGENTS.md
