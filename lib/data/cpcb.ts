@@ -1,15 +1,27 @@
+import { z } from "zod";
+
 /**
  * CPCB (Central Pollution Control Board, India) National AQI bands and
  * PM2.5-to-AQI sub-index calculation with simple Hinglish labels.
  */
 
-export type CpcbCategoryLabel =
-  "Good" | "Satisfactory" | "Moderate" | "Poor" | "Very Poor" | "Severe";
+export const CpcbCategoryLabelSchema = z.enum([
+  "Good",
+  "Satisfactory",
+  "Moderate",
+  "Poor",
+  "Very Poor",
+  "Severe",
+]);
 
-export interface AqiCategory {
-  label: CpcbCategoryLabel;
-  hinglish: string;
-}
+export type CpcbCategoryLabel = z.infer<typeof CpcbCategoryLabelSchema>;
+
+export const AqiCategorySchema = z.object({
+  label: CpcbCategoryLabelSchema,
+  hinglish: z.string().min(1),
+});
+
+export type AqiCategory = z.infer<typeof AqiCategorySchema>;
 
 interface CpcbBand {
   readonly maxAqi: number;
