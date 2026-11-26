@@ -1,20 +1,17 @@
 import { z } from "zod";
 import cachedDelhiRaw from "./cached-delhi.json";
 import { CITIES, CityQuerySchema, type CityConfig, type CityName } from "./cities";
-import { getCpcbCategory, pm25ToCpcbAqi } from "./cpcb";
+import { AqiCategorySchema, getCpcbCategory, pm25ToCpcbAqi } from "./cpcb";
 
 export const AQI_CACHE_TTL_MS = 10 * 60 * 1000;
 const FETCH_TIMEOUT_MS = 5000;
 const TARGET_HOURLY_COUNT = 48;
 
+export { AqiCategorySchema };
+
 export const HourlyPm25Schema = z.object({
   time: z.string().min(1),
   pm25: z.number().finite().nonnegative(),
-});
-
-export const AqiCategorySchema = z.object({
-  label: z.enum(["Good", "Satisfactory", "Moderate", "Poor", "Very Poor", "Severe"]),
-  hinglish: z.string().min(1),
 });
 
 export const AqiResponseSchema = z.object({
