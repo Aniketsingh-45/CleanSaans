@@ -3,6 +3,8 @@
 > **Saaf saans, sabke saath.**  
 > A mobile-first, privacy-focused winter smog assistant designed for Indian families.
 
+Live demo: <ADD VERCEL URL>
+
 [![CI Status](https://github.com/Aniketsingh-45/CleanSaans/actions/workflows/ci.yml/badge.svg)](https://github.com/Aniketsingh-45/CleanSaans/actions/workflows/ci.yml)
 [![Next.js](https://img.shields.io/badge/Next.js-16.4.6-black?style=flat-square&logo=next.js)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19.3.1-blue?style=flat-square&logo=react)](https://react.dev/)
@@ -36,7 +38,7 @@ Urban residents across Delhi-NCR and northern Indian cities face recurring winte
 CleanSaans solves these challenges through a **deterministic, local-first, and responsible AI-powered** platform:
 
 - **Actionable Windows, Not Just Numbers:** Analyzes 24-hour hourly PM2.5 forecast curves to find the statistical cleanest window for errands, school runs, and ventilation.
-- **Relatable Exposure Math:** Uses peer-reviewed Berkeley Earth methodology to communicate daily particulate intake in an intuitive unit: _cigarettes per day_.
+- **Relatable Exposure Math:** Uses Berkeley Earth's cigarette equivalence—a popular-science approximation—to communicate daily particulate intake in an intuitive unit: _cigarettes per day_.
 - **Zero-Cost & Low-Cost Actions First:** Prioritizes free physical behavioral changes (timing kitchen exhaust, weather-stripping foam tape, wearing reusable N95 masks) before expensive equipment.
 - **Camera-Based Household Leak Audit:** Allows families to snap a photo of their kitchen, doors, or windows to instantly identify infiltration leaks with estimated repair costs in INR.
 - **Local-Only Privacy:** Family profile data never leaves the browser—all sensitive demographic and commute factors reside strictly in client `localStorage`.
@@ -88,7 +90,7 @@ CleanSaans directly addresses the core pillars of air pollution risk reduction:
   - Server-side magic-byte binary header validation (protects against spoofed MIME extensions).
   - Gemini Vision analysis returning up to 3 household air leaks with problem description, why it matters, fix instructions, estimated cost in INR, and effort level.
   - Automated open biomass / waste burning detection with civic reporting helpline guidance.
-  - Zero-storage, zero-logging guarantee—images are processed in-memory and immediately discarded.
+  - Images are processed in memory and are not stored or logged by the app.
 
 - **Ask CleanSaans AI Helper (`AskBox.tsx`):**
   - Natural language Q&A interface for common winter air pollution habit questions.
@@ -229,16 +231,16 @@ CleanSaans integrates **Google Gemini** responsibly as an enhancement layer, nev
 
 All numerical estimates in CleanSaans are calculated transparently by [`/lib/engine/index.ts`](lib/engine/index.ts). Users can review this table in the accessible _"Ye numbers kaise nikle?"_ modal:
 
-| ID                      | Parameter                           | Value                                                             | Source & Methodology                                                               | Notes & Caveats                                                                                                                   |
-| :---------------------- | :---------------------------------- | :---------------------------------------------------------------- | :--------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
-| `cigarette_equivalence` | PM2.5 to Cigarette Equivalence      | ~22 µg/m³ PM2.5 over 24h ≈ 1 cigarette                            | Berkeley Earth (_Muller & Muller, 2015 — Air Pollution and Cigarette Equivalence_) | Approximate statistical mortality-risk communication tool; not literal chemical equivalence and not medical advice.               |
-| `breathing_multipliers` | Activity Breathing Rate Multipliers | Rest 1.0x, Walk 1.5x, Exercise 3.0x                               | US EPA Exposure Factors Handbook (adult minute-ventilation scaling)                | Approximate inhalation scaling relative to resting intake; varies with age, child/elderly physiology, and exertion.               |
-| `open_window_factor`    | Open Window Indoor Infiltration     | 0.7 – 0.9 of outdoor PM2.5                                        | Indoor/outdoor PM2.5 infiltration literature (natural-ventilation I/O ratio)       | Approximate range; varies with wind velocity, window opening area, floor height, and indoor cooking smoke.                        |
-| `closed_window_factor`  | Closed Window Indoor Infiltration   | 0.4 – 0.6 of outdoor PM2.5                                        | Indoor/outdoor PM2.5 infiltration literature (closed-envelope I/O ratio)           | Approximate range; depends strongly on frame gaps, door sweeps, and building air-exchange rates.                                  |
-| `purifier_factor`       | HEPA Purifier in Closed Room        | 0.15 – 0.30 of outdoor PM2.5                                      | Closed-room HEPA CADR indoor air-quality literature                                | Assumes an appropriately sized HEPA purifier running continuously with doors and windows closed.                                  |
-| `n95_factor`            | Well-Fitted N95 Mask Outdoors       | 0.20 – 0.40 of outdoor PM2.5                                      | NIOSH / BIS N95 respiratory filtration effectiveness in real-world use             | Effective exposure range accounting for real-world face-seal leakage; cloth or surgical masks offer far less protection.          |
-| `co2_per_km`            | Commute CO₂ Emissions per km        | Car 0.17, Bike 0.08, Bus 0.04, Metro 0.03, Walk/Cycle 0 kg CO₂/km | India GHG Program (WRI India / CII / TERI) & CEA India grid factors                | Indicative per-passenger-km estimates for typical Indian urban transport fleets and grid-powered metro rail.                      |
-| `inr_per_km`            | Commute Out-of-Pocket Cost per km   | Car ₹8, Bike ₹3, Bus ₹1.5, Metro ₹2, Walk/Cycle ₹0 /km            | Indicative Indian urban fuel and transit fare estimates                            | Approximate running-cost estimate based on typical Indian urban public transit fares and fuel prices; excludes vehicle ownership. |
+| ID                      | Parameter                           | Value                                                             | Source & Methodology                                                                            | Notes & Caveats                                                                                                                   |
+| :---------------------- | :---------------------------------- | :---------------------------------------------------------------- | :---------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------- |
+| `cigarette_equivalence` | PM2.5 to Cigarette Equivalence      | ~22 µg/m³ PM2.5 over 24h ≈ 1 cigarette                            | Berkeley Earth, Air Pollution and Cigarette Equivalence (approximation, not a clinical measure) | Approximate statistical mortality-risk communication tool; not literal chemical equivalence and not medical advice.               |
+| `breathing_multipliers` | Activity Breathing Rate Multipliers | Rest 1.0x, Walk 1.5x, Exercise 3.0x                               | US EPA Exposure Factors Handbook (adult minute-ventilation scaling)                             | Approximate inhalation scaling relative to resting intake; varies with age, child/elderly physiology, and exertion.               |
+| `open_window_factor`    | Open Window Indoor Infiltration     | 0.7 – 0.9 of outdoor PM2.5                                        | Indoor/outdoor PM2.5 infiltration literature (natural-ventilation I/O ratio)                    | Approximate range; varies with wind velocity, window opening area, floor height, and indoor cooking smoke.                        |
+| `closed_window_factor`  | Closed Window Indoor Infiltration   | 0.4 – 0.6 of outdoor PM2.5                                        | Indoor/outdoor PM2.5 infiltration literature (closed-envelope I/O ratio)                        | Approximate range; depends strongly on frame gaps, door sweeps, and building air-exchange rates.                                  |
+| `purifier_factor`       | HEPA Purifier in Closed Room        | 0.15 – 0.30 of outdoor PM2.5                                      | Closed-room HEPA CADR indoor air-quality literature                                             | Assumes an appropriately sized HEPA purifier running continuously with doors and windows closed.                                  |
+| `n95_factor`            | Well-Fitted N95 Mask Outdoors       | 0.20 – 0.40 of outdoor PM2.5                                      | NIOSH / BIS N95 respiratory filtration effectiveness in real-world use                          | Effective exposure range accounting for real-world face-seal leakage; cloth or surgical masks offer far less protection.          |
+| `co2_per_km`            | Commute CO₂ Emissions per km        | Car 0.17, Bike 0.08, Bus 0.04, Metro 0.03, Walk/Cycle 0 kg CO₂/km | India GHG Program (WRI India / CII / TERI) & CEA India grid factors                             | Indicative per-passenger-km estimates for typical Indian urban transport fleets and grid-powered metro rail.                      |
+| `inr_per_km`            | Commute Out-of-Pocket Cost per km   | Car ₹8, Bike ₹3, Bus ₹1.5, Metro ₹2, Walk/Cycle ₹0 /km            | Indicative Indian urban fuel and transit fare estimates                                         | Approximate running-cost estimate based on typical Indian urban public transit fares and fuel prices; excludes vehicle ownership. |
 
 ---
 
@@ -256,7 +258,7 @@ All numerical estimates in CleanSaans are calculated transparently by [`/lib/eng
   - WebP: `RIFF` (bytes 0–3) and `WEBP` (bytes 8–11)
 - **File Upload Limits:** Strict 4MB payload cap on `/api/audit`.
 - **JSON Payload Limits:** 100KB body limit on all JSON route handlers via `/lib/security/validate.ts`.
-- **Zero-Logging & Zero-Storage:** No uploaded images, coordinates, or API keys are ever logged to disk, persisted in databases, or included in telemetry.
+- **In-Memory Image Processing:** Images are processed in memory and are not stored or logged by the app. No uploaded images, coordinates, or API keys are ever logged to disk, persisted in databases, or included in telemetry.
 - **Server-Side Secret Isolation:** All API credentials (`GEMINI_API_KEY`, `WAQI_TOKEN`) are accessed exclusively on the server. No `NEXT_PUBLIC_*` secrets exist.
 - **Hardened Content Security Policy (CSP):** Configured in `next.config.ts`:
   - `default-src 'self'`
@@ -273,7 +275,7 @@ All numerical estimates in CleanSaans are calculated transparently by [`/lib/eng
 - **Semantic Landmarks:** Native HTML5 landmarks throughout: `<header>`, `<nav>`, `<main id="main-content">`, `<section>`, `<article>`, `<footer role="contentinfo">`.
 - **Skip Links:** Accessible _"Skip to main content"_ link positioned off-screen and visible on keyboard focus.
 - **Accessible Dialogs:** Modal dialogs implement `role="dialog"`, `aria-modal="true"`, focus-trapping (cycles Tab/Shift+Tab inside modal), Escape key listener, and focus restoration to trigger elements upon close.
-- **Contrast & Visibility:** All text meets or exceeds WCAG AA contrast standards (minimum 4.5:1 for body text, 7:1 for dark slate on white).
+- **Contrast & Visibility:** Designed to meet WCAG AA contrast (minimum 4.5:1 for body text, 7:1 for dark slate on white).
 - **Color Independence:** Air quality categories always render with visible text labels (_"Good"_, _"Poor"_, _"Severe"_), never relying on color alone.
 - **Touch Targets:** All buttons, toggles, and form inputs provide a minimum touch target size of 44×44px (`min-h-11`).
 - **Screen Reader Tables:** Visual charts include companion `.sr-only` HTML tables mapping hourly readings and labels.
@@ -320,6 +322,8 @@ npm run format:check
 | **SEO**            | `100 / 100` |   Complete Metadata & Manifest    |
 | **Best Practices** | `96 / 100`  |    Hardened CSP & Modern APIs     |
 | **Performance**    | `95 / 100`  | Turbopack Optimized & Lazy Loaded |
+
+Measured on mobile, production build, 27 November 2026.
 
 ### Continuous Integration (`.github/workflows/ci.yml`)
 
@@ -402,19 +406,20 @@ npm start
 
 ---
 
-## ⚡ Gemini Quota & Fallback Behavior
+## ⚡ Graceful Degradation
 
-CleanSaans is architected to remain **100% functional** even when Gemini API quotas are exhausted, keys are expired, or network timeouts occur:
+CleanSaans is architected to remain functional even when Gemini API quotas are exhausted, keys are expired, or network timeouts occur:
 
-1. **Plan Route (`/api/plan`):** If Gemini fails or times out, the server falls back to deterministic rule templates. Every recommendation, impact chip, and cigarette reduction remains accurate and available.
-2. **Audit Route (`/api/audit`):** If Gemini is unreachable or returns 429 quota exhaustion, a clean, human-readable error is displayed with recommendations to try basic sealing checks manually.
-3. **Ask Route (`/api/ask`):** Falls back to a friendly, safe pre-formatted response advising the user on standard pollution habits and directing medical concerns to healthcare providers.
-4. **Caching:** All plan calculations and AQI readings are cached in-memory for 10 minutes to minimize redundant external API consumption.
+- **Plan Route (`/api/plan`):** The plan falls back to deterministic rules. Every recommendation, impact chip, and cigarette reduction remains accurate and available.
+- **Audit Route (`/api/audit`):** Shows friendly error messages with actionable advice to try manual sealing checks if the service is unreachable or rate limited.
+- **Ask Route (`/api/ask`):** Shows friendly error messages and fallback habit advice, directing any medical concerns to healthcare providers.
+- **Caching:** Plan calculations and AQI readings are cached in memory for 10 minutes to minimize redundant external API consumption.
 
 ---
 
 ## ⚠️ Limitations
 
+- **In-Memory Rate Limits & Caches:** Rate limits and caches are in-memory per server instance (serverless instances do not share them); a shared store is on the roadmap.
 - **Approximate Estimates:** Cigarette equivalence (~22 µg/m³ = 1 cig/day) and commuter CO₂/INR savings are population-level statistical approximations designed for intuitive risk awareness, not clinical toxicological measurement.
 - **Hourly CPCB Bands Approximation:** Official CPCB National Air Quality Index bands are defined for 24-hour averages. Hourly PM2.5 readings mapped to CPCB bands are indicative approximations of diurnal pollution shifts.
 - **Not Medical Advice:** CleanSaans does not diagnose respiratory conditions or replace professional medical consultation. Individuals experiencing acute symptoms should seek immediate emergency medical care.
@@ -423,6 +428,7 @@ CleanSaans is architected to remain **100% functional** even when Gemini API quo
 
 ## 🗺️ Roadmap
 
+- [ ] **Shared Distributed Store:** Replace per-instance in-memory rate limiting and cache with a shared store (e.g. Redis/Upstash) for multi-instance serverless deployments.
 - [ ] **Nonce-Based Content Security Policy:** Transition from `'unsafe-inline'` script allowances to per-request cryptographic nonces generated in Next.js middleware.
 - [ ] **Community Smoke Reporting:** Integration with municipal pollution reporting portals (e.g., Green Delhi App / SAMEER API).
 - [ ] **DIY Air Purifier Builder Guide:** Step-by-step instructions for assembling low-cost box fan + HEPA filter units with local Indian parts.

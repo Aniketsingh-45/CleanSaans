@@ -165,7 +165,8 @@ export const ASSUMPTIONS: readonly Assumption[] = [
     id: "cigarette_equivalence",
     label: "PM2.5 to cigarette equivalence",
     value: `~${UG_PER_CIGARETTE_DAY} ug/m3 PM2.5 over 24h approx = 1 cigarette`,
-    source: "Berkeley Earth (Muller & Muller, 2015 — Air Pollution and Cigarette Equivalence)",
+    source:
+      "Berkeley Earth, Air Pollution and Cigarette Equivalence (approximation, not a clinical measure)",
     note: "Approximate statistical mortality-risk communication tool; not literal chemical/medical equivalence and not medical advice.",
   },
   {
