@@ -1,7 +1,7 @@
 "use client";
 
 import type { JSX } from "react";
-import { useT, type Language } from "./provider";
+import { useT, type Language } from "@/lib/i18n/provider";
 
 interface LanguageOption {
   id: Language;

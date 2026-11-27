@@ -10,9 +10,9 @@ import {
   useSyncExternalStore,
   type ReactNode,
 } from "react";
-import { en } from "./en";
-import { hi } from "./hi";
-import { hinglish, type Dictionary, type TranslationKey } from "./hinglish";
+import { en } from "./dictionaries/en";
+import { hi } from "./dictionaries/hi";
+import { hinglish, type Dictionary, type TranslationKey } from "./dictionaries/hinglish";
 
 export type Language = "hinglish" | "hi" | "en";
 

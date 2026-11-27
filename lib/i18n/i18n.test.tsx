@@ -1,8 +1,6 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
-import { en } from "./en";
-import { hi } from "./hi";
-import { hinglish, type TranslationKey } from "./hinglish";
+import { en, hi, hinglish, type TranslationKey } from "./dictionaries";
 import { HTML_LANG_MAP, LanguageProvider, LanguageToggle, STORAGE_KEY, useT } from "./index";
 
 function TestConsumer() {
