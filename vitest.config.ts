@@ -7,6 +7,19 @@ export default defineConfig({
   test: {
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "json-summary"],
+      include: ["app/**/*.{ts,tsx}", "components/**/*.{ts,tsx}", "lib/**/*.{ts,tsx}"],
+      exclude: [
+        "**/*.test.{ts,tsx}",
+        "**/*.d.ts",
+        "app/**/layout.tsx",
+        "app/error.tsx",
+        "app/not-found.tsx",
+        "app/loading.tsx",
+      ],
+    },
   },
   resolve: {
     alias: {
