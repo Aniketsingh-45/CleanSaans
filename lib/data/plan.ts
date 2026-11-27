@@ -399,26 +399,32 @@ export async function callGeminiForHinglishText(
     actions: expectedActions,
   });
 
-  const requestBody = {
-    system_instruction: {
-      parts: [{ text: systemInstruction }],
-    },
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: userPrompt }],
-      },
-    ],
-    generationConfig: {
-      response_mime_type: "application/json",
-      temperature: 0.2,
-    },
-  };
-
   let activeModel = model;
 
   // Try up to 2 attempts (initial + 1 retry)
   for (let attempt = 1; attempt <= 2; attempt++) {
+    const isThinkingModel = activeModel.includes("2.5");
+    const generationConfig: Record<string, unknown> = {
+      response_mime_type: "application/json",
+      temperature: 0.2,
+    };
+    if (isThinkingModel) {
+      generationConfig.thinkingConfig = { thinkingBudget: 0 };
+    }
+
+    const requestBody = {
+      systemInstruction: {
+        parts: [{ text: systemInstruction }],
+      },
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: userPrompt }],
+        },
+      ],
+      generationConfig,
+    };
+
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     try {
       const response = await fetch(url, {
@@ -431,9 +437,9 @@ export async function callGeminiForHinglishText(
       if (!response.ok) {
         if (
           (response.status === 429 || response.status === 404) &&
-          activeModel !== DEFAULT_GEMINI_MODEL
+          activeModel !== "gemini-flash-lite-latest"
         ) {
-          activeModel = DEFAULT_GEMINI_MODEL;
+          activeModel = "gemini-flash-lite-latest";
         }
         continue;
       }

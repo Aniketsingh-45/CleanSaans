@@ -39,36 +39,42 @@ export async function auditImageWithGemini(
     throw new Error("GEMINI_API_KEY is not configured.");
   }
 
-  const requestBody = {
-    systemInstruction: {
-      parts: [{ text: AUDIT_SYSTEM_PROMPT }],
-    },
-    contents: [
-      {
-        parts: [
-          {
-            inlineData: {
-              mimeType,
-              data: base64Data,
-            },
-          },
-          {
-            text: "Audit this household photo for air pollution leaks, infiltration gaps, biomass/incense/waste burning, or indoor emission sources.",
-          },
-        ],
-      },
-    ],
-    generationConfig: {
-      response_mime_type: "application/json",
-      temperature: 0.2,
-    },
-  };
-
   let activeModel = model;
   let lastError: Error | null = null;
 
   // Try initial attempt + 1 retry (2 attempts total)
   for (let attempt = 1; attempt <= 2; attempt++) {
+    const isThinkingModel = activeModel.includes("2.5");
+    const generationConfig: Record<string, unknown> = {
+      response_mime_type: "application/json",
+      temperature: 0.2,
+    };
+    if (isThinkingModel) {
+      generationConfig.thinkingConfig = { thinkingBudget: 0 };
+    }
+
+    const requestBody = {
+      systemInstruction: {
+        parts: [{ text: AUDIT_SYSTEM_PROMPT }],
+      },
+      contents: [
+        {
+          parts: [
+            {
+              inlineData: {
+                mimeType,
+                data: base64Data,
+              },
+            },
+            {
+              text: "Audit this household photo for air pollution leaks, infiltration gaps, biomass/incense/waste burning, or indoor emission sources.",
+            },
+          ],
+        },
+      ],
+      generationConfig,
+    };
+
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     try {
       const response = await fetch(url, {
@@ -80,12 +86,12 @@ export async function auditImageWithGemini(
 
       if (!response.ok) {
         lastError = new Error(`Gemini API error (HTTP ${response.status})`);
-        // If quota exceeded (429) or model not found (404), fall back to default model on retry
+        // If quota exceeded (429) or model not found (404), fall back to gemini-flash-lite-latest on retry
         if (
           (response.status === 429 || response.status === 404) &&
-          activeModel !== "gemini-2.5-flash"
+          activeModel !== "gemini-flash-lite-latest"
         ) {
-          activeModel = "gemini-2.5-flash";
+          activeModel = "gemini-flash-lite-latest";
         }
         continue;
       }

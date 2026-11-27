@@ -56,26 +56,32 @@ export async function askCleanSaansWithGemini(
     };
   }
 
-  const requestBody = {
-    systemInstruction: {
-      parts: [{ text: ASK_SYSTEM_PROMPT }],
-    },
-    contents: [
-      {
-        parts: [
-          {
-            text: `Preferred Language: ${input.language}\nUser Question: ${input.question}`,
-          },
-        ],
-      },
-    ],
-    generationConfig: {
-      temperature: 0.2,
-      maxOutputTokens: 300,
-    },
-  };
-
   const attemptFetch = async (targetModel: string): Promise<Response> => {
+    const isThinkingModel = targetModel.includes("2.5");
+    const generationConfig: Record<string, unknown> = {
+      temperature: 0.2,
+      maxOutputTokens: 1000,
+    };
+    if (isThinkingModel) {
+      generationConfig.thinkingConfig = { thinkingBudget: 0 };
+    }
+
+    const requestBody = {
+      systemInstruction: {
+        parts: [{ text: ASK_SYSTEM_PROMPT }],
+      },
+      contents: [
+        {
+          parts: [
+            {
+              text: `Preferred Language: ${input.language}\nUser Question: ${input.question}`,
+            },
+          ],
+        },
+      ],
+      generationConfig,
+    };
+
     const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(targetModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     return fetch(url, {
       method: "POST",
@@ -88,9 +94,12 @@ export async function askCleanSaansWithGemini(
   try {
     let response = await attemptFetch(model);
 
-    // If quota exceeded (429) or model not found (404), retry once with default model
-    if ((response.status === 429 || response.status === 404) && model !== "gemini-2.5-flash") {
-      response = await attemptFetch("gemini-2.5-flash");
+    // If quota exceeded (429) or model not found (404), fall back to gemini-flash-lite-latest (which has higher free-tier limits)
+    if (
+      (response.status === 429 || response.status === 404) &&
+      model !== "gemini-flash-lite-latest"
+    ) {
+      response = await attemptFetch("gemini-flash-lite-latest");
     }
 
     if (!response.ok) {
