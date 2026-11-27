@@ -110,21 +110,24 @@ CleanSaans directly addresses the core pillars of air pollution risk reduction:
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshots & Visual Walkthrough
 
-Screenshots of the CleanSaans interface are located in [`/docs/screenshots`](docs/screenshots/).
+Visual walkthrough of CleanSaans capturing real-time monitoring, Berkeley Earth exposure math, diurnal safe window curves, personalized daily routines, and camera-based leak audit:
 
-> **Note:** Screenshots can be added directly to `/docs/screenshots/` (e.g., `home.png`, `safe-window.png`, `plan.png`, `audit.png`). The preview table below renders once images are placed in the directory:
+|                                                                              1. Profile Setup & Calibration (`/onboarding`)                                                                              |                                                                 2. Live AQI & Cigarette Exposure Simulator (`/`)                                                                  |
+| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                            [![Family Profile Setup](docs/screenshots/01_profile_onboarding.png)](docs/screenshots/01_profile_onboarding.png)                                             |                                  [![Dashboard Overview](docs/screenshots/02_dashboard_overview.png)](docs/screenshots/02_dashboard_overview.png)                                  |
+| _Step 1/1 Profile Calibration: Calibrates city (Lucknow), vulnerable members (1 child under 12, 1 senior 65+), asthma status, and daily commute (Motorcycle) with local-only storage privacy guarantee._ | _Twin Hero Cards: Real-time CPCB telemetry (Lucknow AQI 118, PM2.5 106 µg/m³) alongside Berkeley Earth exposure simulation (~4.7-6.1 vs. ~3.4-5.1 cigs/day, ~21% less exposure)._ |
 
-<!-- Once screenshot assets are added to docs/screenshots/, uncomment the table below:
-|             Home Dashboard & AQI             |              Safe Window & Exposure              |
-| :------------------------------------------: | :----------------------------------------------: |
-| ![Home Dashboard](docs/screenshots/home.png) | ![Safe Window](docs/screenshots/safe-window.png) |
+|                                                                       3. 24-Hour Diurnal Safe Window Forecast (`SafeWindow.tsx`)                                                                       |                                                                         4. Personalized Daily Action Plan (`DailyPlan.tsx`)                                                                          |
+| :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                         [![Safe Window Forecast](docs/screenshots/03_safe_window_forecast.png)](docs/screenshots/03_safe_window_forecast.png)                                          |                                    [![Personalized Daily Plan](docs/screenshots/04_personalized_daily_plan.png)](docs/screenshots/04_personalized_daily_plan.png)                                    |
+| _24-hour diurnal PM2.5 bar curve with start time & duration sliders, one-click "Best time set karo (11:00)", clean window recommendation (11:00-12:00 saving ~0.3 cigs), and sensitive group caution._ | _5 customized actions across 3 categories (Low-emission routines, Indoor air hacks, Sustainable alternatives) with direct impact chips, expandable "Why?" drawers, and integrated WhatsApp sharing._ |
 
-|            Daily Action Plan             |               Household Photo Audit                |
-| :--------------------------------------: | :------------------------------------------------: |
-| ![Daily Plan](docs/screenshots/plan.png) | ![Household Air Audit](docs/screenshots/audit.png) |
--->
+|                                                                        5. AI Air Intelligence Hub (`/audit` & `AskBox.tsx`)                                                                         |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
+|                                      [![AI Air Intelligence Hub](docs/screenshots/05_ai_audit_and_chatbot.png)](docs/screenshots/05_ai_audit_and_chatbot.png)                                       |
+| _Home Air Audit Lab card (kitchen exhaust, window seal cracks, incense hazards) alongside Ask CleanSaans conversational Q&A assistant with quick suggested prompts and medical safety disclaimers._ |
 
 ---
 
