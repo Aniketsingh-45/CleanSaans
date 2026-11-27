@@ -132,7 +132,7 @@ export function AskBox({ className = "" }: AskBoxProps) {
   return (
     <section
       aria-labelledby="ask-box-heading"
-      className={`relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all sm:p-7 ${className}`}
+      className={`relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-4.5 sm:p-6 lg:p-7 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all ${className}`}
     >
       {/* Background ambient glow */}
       <div
@@ -169,7 +169,7 @@ export function AskBox({ className = "" }: AskBoxProps) {
             key={idx}
             type="button"
             onClick={() => setQuestion(prompt)}
-            className="inline-flex items-center gap-1.5 cursor-pointer rounded-full border border-teal-200/80 bg-teal-50/70 px-3 py-1 text-xs font-semibold text-teal-950 transition-all hover:bg-teal-100/90 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 shadow-2xs"
+            className="inline-flex items-center gap-1.5 cursor-pointer rounded-full border border-teal-200/80 bg-teal-50/70 px-2.5 py-1 text-[11px] sm:text-xs font-semibold text-teal-950 transition-all hover:bg-teal-100/90 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 shadow-2xs"
           >
             <SparklesIcon className="h-3 w-3 text-teal-700" />
             <span>{prompt}</span>
@@ -208,7 +208,7 @@ export function AskBox({ className = "" }: AskBoxProps) {
           <button
             type="submit"
             disabled={!question.trim() || loading}
-            className="inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl bg-linear-to-r from-teal-800 to-teal-950 px-6 py-2.5 text-xs font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-teal-900 hover:to-slate-950 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 disabled:cursor-not-allowed disabled:from-slate-200 disabled:to-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:translate-y-0"
+            className="inline-flex min-h-11 w-full sm:w-auto cursor-pointer items-center justify-center gap-2 rounded-xl bg-linear-to-r from-teal-800 to-teal-950 px-6 py-2.5 text-xs font-bold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-teal-900 hover:to-slate-950 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 disabled:cursor-not-allowed disabled:from-slate-200 disabled:to-slate-300 disabled:text-slate-500 disabled:shadow-none disabled:translate-y-0"
           >
             {loading ? (
               <span className="flex items-center gap-2">

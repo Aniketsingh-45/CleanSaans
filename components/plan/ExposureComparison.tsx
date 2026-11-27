@@ -32,7 +32,7 @@ export function ExposureComparison({
   return (
     <section
       aria-labelledby="comparison-heading"
-      className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all sm:p-7 h-full flex flex-col justify-between"
+      className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-4.5 sm:p-6 lg:p-7 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all h-full flex flex-col justify-between"
     >
       {/* Luminous atmospheric orb */}
       <div

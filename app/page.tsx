@@ -178,39 +178,43 @@ export default function HomePage(): JSX.Element {
 
       {/* 1) Pure Website Full-Width Header */}
       <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/85 backdrop-blur-xl shadow-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-teal-700 to-emerald-800 text-white shadow-md shadow-teal-950/20">
-              <LeafIcon className="h-5 w-5" />
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-3.5 py-2.5 sm:px-6 sm:py-3.5 lg:px-8">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-700 to-emerald-800 text-white shadow-md shadow-teal-950/20">
+              <LeafIcon className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <h1 className="text-lg font-black tracking-tight text-slate-950 sm:text-2xl">
                   {t("appName")}
                 </h1>
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-950">
+                <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-950">
                   <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-600" />
                   Live Monitored
                 </span>
               </div>
-              <p className="text-xs font-semibold text-teal-800">{t("tagline")}</p>
+              <p className="text-[11px] sm:text-xs font-semibold text-teal-800 truncate max-w-[140px] sm:max-w-none">
+                {t("tagline")}
+              </p>
             </div>
           </div>
 
-          <nav aria-label="Quick actions" className="flex items-center gap-3">
+          <nav aria-label="Quick actions" className="flex items-center gap-1.5 sm:gap-3">
             <Link
               href="/audit"
-              className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-slate-200/90 bg-white/90 px-4 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white/90 px-2.5 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 sm:rounded-2xl sm:px-4"
             >
-              <CameraIcon className="h-4 w-4 text-teal-700" />
-              <span>{t("auditNav")}</span>
+              <CameraIcon className="h-4 w-4 text-teal-700 shrink-0" />
+              <span className="hidden sm:inline">{t("auditNav")}</span>
+              <span className="sm:hidden">Audit</span>
             </Link>
             <Link
               href="/onboarding"
-              className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-slate-200/90 bg-white/90 px-4 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white/90 px-2.5 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 sm:rounded-2xl sm:px-4"
             >
-              <UserEditIcon className="h-4 w-4 text-teal-700" />
-              <span>{t("editProfile")}</span>
+              <UserEditIcon className="h-4 w-4 text-teal-700 shrink-0" />
+              <span className="hidden sm:inline">{t("editProfile")}</span>
+              <span className="sm:hidden">Profile</span>
             </Link>
             <LanguageToggle />
           </nav>
@@ -220,7 +224,7 @@ export default function HomePage(): JSX.Element {
       {/* Main Content Area */}
       <main
         id="main-content"
-        className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8 space-y-8"
+        className="mx-auto w-full max-w-7xl flex-1 px-3.5 py-4 sm:px-6 sm:py-8 space-y-5 sm:space-y-8"
       >
         {/* Tier 1: Twin Hero Metric Cards (Air Quality + Cigarette Exposure Reduction) */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 items-stretch">
@@ -297,15 +301,17 @@ export default function HomePage(): JSX.Element {
 
         {/* Tier 3: Personalized Daily Action Plan (Full-Width with Integrated Share Button) */}
         {planData && (
-          <DailyPlan
-            actions={planData.actions}
-            source={planData.source}
-            headerRight={<ShareButton planData={planData} />}
-          />
+          <div className="content-visibility-auto">
+            <DailyPlan
+              actions={planData.actions}
+              source={planData.source}
+              headerRight={<ShareButton planData={planData} />}
+            />
+          </div>
         )}
 
         {/* Tier 4: AI Air Intelligence Hub (Vision AI Audit Lab + Ask CleanSaans AI) */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
+        <div className="content-visibility-auto grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
           {/* Card A: Vision AI Photo Audit Lab (5 cols) */}
           <div className="lg:col-span-5 h-full">
             <section

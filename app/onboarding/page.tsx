@@ -126,7 +126,7 @@ export default function OnboardingPage(): JSX.Element {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-4 py-6 sm:px-6">
+    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-3.5 py-4 sm:px-6 sm:py-6">
       {/* Skip to Content link */}
       <a
         href="#main-content"
@@ -135,16 +135,16 @@ export default function OnboardingPage(): JSX.Element {
         {t("skipToContent")}
       </a>
 
-      <header className="sticky top-0 z-30 -mx-4 -mt-6 mb-2 flex flex-wrap items-center justify-between gap-4 border-b border-teal-900/10 bg-white/80 px-4 py-4 backdrop-blur-xl sm:-mx-6 sm:px-6 shadow-xs">
-        <div className="flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-teal-600 to-emerald-700 text-white shadow-md shadow-teal-900/20">
-            <LeafIcon className="h-5 w-5 text-white" />
+      <header className="sticky top-0 z-30 -mx-3.5 -mt-4 mb-2 flex flex-wrap items-center justify-between gap-3 border-b border-teal-900/10 bg-white/80 px-3.5 py-3 backdrop-blur-xl sm:-mx-6 sm:-mt-6 sm:px-6 sm:py-4 shadow-xs">
+        <div className="flex items-center gap-2.5 sm:gap-3">
+          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-600 to-emerald-700 text-white shadow-md shadow-teal-900/20">
+            <LeafIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
           </div>
           <div>
-            <h1 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+            <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-3xl">
               {t("appName")}
             </h1>
-            <p className="text-xs font-semibold text-teal-800 sm:text-sm">{t("tagline")}</p>
+            <p className="text-[11px] sm:text-xs font-semibold text-teal-800">{t("tagline")}</p>
           </div>
         </div>
         <nav aria-label="Language selection">

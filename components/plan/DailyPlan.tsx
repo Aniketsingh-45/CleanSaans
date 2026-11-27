@@ -79,7 +79,7 @@ export function DailyPlan({ actions, source, headerRight }: DailyPlanProps): JSX
   return (
     <section
       aria-labelledby="daily-plan-heading"
-      className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all sm:p-7"
+      className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-4.5 sm:p-6 lg:p-7 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all"
     >
       {/* Background ambient glow */}
       <div
@@ -165,12 +165,12 @@ export function DailyPlan({ actions, source, headerRight }: DailyPlanProps): JSX
                   return (
                     <article
                       key={action.id}
-                      className={`group relative flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-5 shadow-xs transition-all duration-300 hover:border-teal-400 hover:shadow-md sm:p-6 ${
+                      className={`group relative flex flex-col justify-between rounded-2xl border border-slate-200/80 bg-white p-4 sm:p-5 lg:p-6 shadow-xs transition-all duration-300 hover:border-teal-400 hover:shadow-md ${
                         catActions.length === 1 ? "sm:col-span-2" : ""
                       }`}
                     >
                       <div>
-                        <div className="flex flex-wrap items-center justify-between gap-2.5">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
                           <span className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200/90 bg-slate-50 px-2.5 py-1 text-xs font-bold text-slate-800 shadow-2xs">
                             <ClockIcon className="h-3 w-3 text-slate-500" />
                             <span>{action.time}</span>
@@ -189,12 +189,12 @@ export function DailyPlan({ actions, source, headerRight }: DailyPlanProps): JSX
                           )}
                         </div>
 
-                        <h4 className="mt-3.5 text-base font-extrabold text-slate-950 sm:text-lg">
+                        <h4 className="mt-2.5 sm:mt-3.5 text-sm sm:text-base lg:text-lg font-extrabold text-slate-950">
                           {action.title}
                         </h4>
 
                         {/* Impact Chips */}
-                        <div className="mt-3.5 flex flex-wrap items-center gap-2">
+                        <div className="mt-2.5 sm:mt-3.5 flex flex-wrap items-center gap-1.5 sm:gap-2">
                           {cigsSavedText && (
                             <span className="inline-flex items-center gap-1.5 rounded-xl border border-teal-200/80 bg-teal-50 px-2.5 py-1 text-xs font-bold text-teal-950 shadow-2xs">
                               <CigaretteIcon className="h-3.5 w-3.5 text-teal-800" />

@@ -104,7 +104,7 @@ export function AssumptionsModal({
         role="dialog"
         aria-modal="true"
         aria-labelledby="assumptions-modal-title"
-        className="relative flex max-h-[90vh] w-full max-w-3xl flex-col rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-2xl backdrop-blur-xl sm:p-7"
+        className="relative flex max-h-[90vh] w-full max-w-3xl flex-col rounded-3xl border border-teal-900/10 bg-white/95 p-4 sm:p-6 lg:p-7 shadow-2xl backdrop-blur-xl"
       >
         {/* Header */}
         <div className="flex items-start justify-between gap-4 border-b border-slate-100/90 pb-4">

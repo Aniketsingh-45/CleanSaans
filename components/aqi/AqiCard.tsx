@@ -203,31 +203,34 @@ export function AqiCard({ city, onDataLoaded }: AqiCardProps): JSX.Element {
   return (
     <section
       aria-labelledby="aqi-card-heading"
-      className={`relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 backdrop-blur-md p-6 sm:p-7 shadow-xl shadow-teal-950/5 transition-all duration-300 hover:shadow-2xl bg-linear-to-br ${categoryStyle.aura} h-full flex flex-col justify-between`}
+      className={`relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 backdrop-blur-md p-4.5 sm:p-6 lg:p-7 shadow-xl shadow-teal-950/5 transition-all duration-300 hover:shadow-2xl bg-linear-to-br ${categoryStyle.aura} h-full flex flex-col justify-between`}
     >
       {/* Top Meta Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-3">
-        <div className="flex items-center gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-2.5 sm:gap-3 border-b border-slate-100 pb-3">
+        <div className="flex items-center gap-2 min-w-0">
           <span
-            className="flex h-6 w-6 items-center justify-center rounded-lg bg-teal-100/60 text-xs text-teal-800"
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-teal-100/60 text-xs text-teal-800"
             aria-hidden="true"
           >
             <MapPinIcon className="h-3.5 w-3.5 text-teal-700" />
           </span>
-          <h2 id="aqi-card-heading" className="text-base font-bold text-slate-950 sm:text-lg">
+          <h2
+            id="aqi-card-heading"
+            className="text-base font-bold text-slate-950 sm:text-lg truncate"
+          >
             {data.city}
           </h2>
-          <span className="text-xs font-medium text-slate-500">• {relativeTime}</span>
+          <span className="text-xs font-medium text-slate-500 shrink-0">• {relativeTime}</span>
         </div>
 
         {/* Source Badge with Live Pulse Indicator */}
         {data.source === "cached" ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-3 py-1 text-xs font-semibold text-amber-950 shadow-2xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300 bg-amber-50 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-semibold text-amber-950 shadow-2xs">
             <span className="h-1.5 w-1.5 rounded-full bg-amber-500" aria-hidden="true" />
             {t("badgeCached")}
           </span>
         ) : (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-950 shadow-2xs">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300 bg-emerald-50 px-2.5 py-0.5 sm:px-3 sm:py-1 text-[11px] sm:text-xs font-semibold text-emerald-950 shadow-2xs">
             <span className="relative flex h-2 w-2" aria-hidden="true">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 motion-reduce:hidden" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
@@ -238,16 +241,18 @@ export function AqiCard({ city, onDataLoaded }: AqiCardProps): JSX.Element {
       </div>
 
       {/* Main Stats with Radial Gauge */}
-      <div className="mt-5 flex flex-wrap items-center justify-between gap-4">
+      <div className="mt-4 sm:mt-5 flex items-center justify-between gap-3 sm:gap-4">
         <div>
-          <div className="flex items-baseline gap-2">
-            <span className="text-5xl font-black tracking-tight text-slate-950 sm:text-6xl font-mono">
+          <div className="flex items-baseline gap-1.5 sm:gap-2">
+            <span className="text-4xl sm:text-6xl font-black tracking-tight text-slate-950 font-mono">
               {data.aqi}
             </span>
-            <span className="text-sm font-bold uppercase tracking-wider text-slate-500">AQI</span>
+            <span className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500">
+              AQI
+            </span>
           </div>
 
-          <div className="mt-2 inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-medium text-slate-700">
+          <div className="mt-1.5 sm:mt-2 inline-flex items-center gap-1.5 rounded-lg bg-slate-100 px-2 py-0.5 sm:px-2.5 sm:py-1 text-[11px] sm:text-xs font-medium text-slate-700">
             <span className="h-1.5 w-1.5 rounded-full bg-slate-400" aria-hidden="true" />
             <span>
               PM2.5:{" "}
@@ -258,8 +263,8 @@ export function AqiCard({ city, onDataLoaded }: AqiCardProps): JSX.Element {
         </div>
 
         {/* Visual Circular Gauge */}
-        <div className="relative flex items-center justify-center" aria-hidden="true">
-          <svg className="h-22 w-22 -rotate-90 transform" viewBox="0 0 80 80">
+        <div className="relative flex shrink-0 items-center justify-center" aria-hidden="true">
+          <svg className="h-18 w-18 sm:h-22 sm:w-22 -rotate-90 transform" viewBox="0 0 80 80">
             {/* Background ring */}
             <circle
               cx="40"

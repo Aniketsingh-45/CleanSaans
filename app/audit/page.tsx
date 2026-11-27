@@ -201,7 +201,7 @@ export default function AuditPage(): JSX.Element {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-4 py-6 sm:px-6">
+    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-3.5 py-4 sm:px-6 sm:py-6">
       {/* Skip to Content link */}
       <a
         href="#main-content"
@@ -211,7 +211,7 @@ export default function AuditPage(): JSX.Element {
       </a>
 
       {/* Header */}
-      <header className="sticky top-0 z-30 -mx-4 -mt-6 mb-2 flex flex-wrap items-center justify-between gap-4 border-b border-teal-900/10 bg-white/80 px-4 py-4 backdrop-blur-xl sm:-mx-6 sm:px-6 shadow-xs">
+      <header className="sticky top-0 z-30 -mx-3.5 -mt-4 mb-2 flex flex-wrap items-center justify-between gap-3 border-b border-teal-900/10 bg-white/80 px-3.5 py-3 backdrop-blur-xl sm:-mx-6 sm:-mt-6 sm:px-6 sm:py-4 shadow-xs">
         <div>
           <Link
             href="/"
@@ -221,7 +221,7 @@ export default function AuditPage(): JSX.Element {
             <span>{t("appName")} Home</span>
           </Link>
           <div className="mt-1 flex items-center gap-2">
-            <h1 className="text-2xl font-black tracking-tight text-slate-950 sm:text-3xl">
+            <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-3xl">
               {t("auditPageTitle")}
             </h1>
             <span className="inline-flex items-center gap-1 rounded-full border border-teal-300/80 bg-teal-100/80 px-2 py-0.5 text-[10px] font-extrabold text-teal-950">

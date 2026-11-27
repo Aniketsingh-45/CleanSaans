@@ -129,7 +129,7 @@ export function SafeWindow({
   return (
     <section
       aria-labelledby="safe-window-heading"
-      className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all sm:p-7"
+      className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-4.5 sm:p-6 lg:p-7 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all"
     >
       {/* Ambient background glow */}
       <div
@@ -177,7 +177,7 @@ export function SafeWindow({
         <div
           role="img"
           aria-label="24-hour PM2.5 pollution chart"
-          className="mt-2.5 flex h-28 items-end gap-1 rounded-2xl border border-slate-200/70 bg-linear-to-b from-slate-50/60 to-slate-100/50 p-2.5 shadow-inner"
+          className="mt-2.5 flex h-28 sm:h-36 items-end gap-0.5 sm:gap-1 rounded-2xl border border-slate-200/70 bg-linear-to-b from-slate-50/60 to-slate-100/50 p-2 sm:p-2.5 shadow-inner"
         >
           {hourly24.map((entry, index) => {
             const hour = entry.time !== undefined ? getKolkataClockHour(entry.time) : index;
@@ -361,7 +361,7 @@ export function SafeWindow({
         <button
           type="button"
           onClick={() => setStartHour(bestHour)}
-          className="group inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl border border-teal-600/30 bg-linear-to-r from-teal-50 via-emerald-50 to-teal-50 px-4 py-2.5 text-xs font-bold text-teal-950 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md hover:border-teal-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 sm:text-sm"
+          className="group inline-flex min-h-11 w-full sm:w-auto cursor-pointer items-center justify-center gap-2 rounded-xl border border-teal-600/30 bg-linear-to-r from-teal-50 via-emerald-50 to-teal-50 px-4 py-2.5 text-xs font-bold text-teal-950 shadow-xs transition-all hover:-translate-y-0.5 hover:shadow-md hover:border-teal-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 sm:text-sm"
         >
           <ZapIcon className="h-4 w-4 text-teal-800 transition-transform group-hover:scale-110" />
           <span>{t("setBestTimeBtn")}</span>
