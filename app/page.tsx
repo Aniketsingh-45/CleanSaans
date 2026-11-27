@@ -177,47 +177,54 @@ export default function HomePage(): JSX.Element {
       </a>
 
       {/* 1) Pure Website Full-Width Header */}
-      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/85 backdrop-blur-xl shadow-xs">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-3.5 py-2.5 sm:px-6 sm:py-3.5 lg:px-8">
-          <div className="flex items-center gap-2.5 sm:gap-3">
-            <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-700 to-emerald-800 text-white shadow-md shadow-teal-950/20">
-              <LeafIcon className="h-4 w-4 sm:h-5 sm:w-5" />
-            </div>
-            <div>
-              <div className="flex items-center gap-1.5 sm:gap-2">
-                <h1 className="text-lg font-black tracking-tight text-slate-950 sm:text-2xl">
-                  {t("appName")}
-                </h1>
-                <span className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-950">
-                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-600" />
-                  Live Monitored
-                </span>
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-xl shadow-xs">
+        <div className="mx-auto max-w-7xl px-3.5 py-2.5 sm:px-6 sm:py-3.5 lg:px-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-4">
+            {/* Top row on mobile / Left on desktop: Brand Identity */}
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+                <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-700 to-emerald-800 text-white shadow-md shadow-teal-950/20">
+                  <LeafIcon className="h-4.5 w-4.5 sm:h-5 sm:w-5" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5 sm:gap-2">
+                    <h1 className="text-lg font-black tracking-tight text-slate-950 sm:text-2xl">
+                      {t("appName")}
+                    </h1>
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50 px-2 py-0.5 text-[10px] font-extrabold text-emerald-950">
+                      <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-600" />
+                      Live Monitored
+                    </span>
+                  </div>
+                  <p className="text-[11px] sm:text-xs font-semibold text-teal-800">
+                    {t("tagline")}
+                  </p>
+                </div>
               </div>
-              <p className="text-[11px] sm:text-xs font-semibold text-teal-800 truncate max-w-[140px] sm:max-w-none">
-                {t("tagline")}
-              </p>
             </div>
-          </div>
 
-          <nav aria-label="Quick actions" className="flex items-center gap-1.5 sm:gap-3">
-            <Link
-              href="/audit"
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white/90 px-2.5 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 sm:rounded-2xl sm:px-4"
+            {/* Navigation & Language controls (Single instance in DOM, perfectly responsive) */}
+            <nav
+              aria-label="Quick actions"
+              className="flex items-center justify-between sm:justify-end gap-1.5 sm:gap-3"
             >
-              <CameraIcon className="h-4 w-4 text-teal-700 shrink-0" />
-              <span className="hidden sm:inline">{t("auditNav")}</span>
-              <span className="sm:hidden">Audit</span>
-            </Link>
-            <Link
-              href="/onboarding"
-              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-slate-200/90 bg-white/90 px-2.5 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 sm:rounded-2xl sm:px-4"
-            >
-              <UserEditIcon className="h-4 w-4 text-teal-700 shrink-0" />
-              <span className="hidden sm:inline">{t("editProfile")}</span>
-              <span className="sm:hidden">Profile</span>
-            </Link>
-            <LanguageToggle />
-          </nav>
+              <Link
+                href="/audit"
+                className="flex-1 sm:flex-none inline-flex min-h-11 items-center justify-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-teal-200/80 bg-teal-50/70 sm:border-slate-200/90 sm:bg-white px-2.5 sm:px-4 py-2 text-xs font-bold text-teal-950 sm:text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+              >
+                <CameraIcon className="h-4 w-4 text-teal-700 shrink-0" />
+                <span>{t("auditNav")}</span>
+              </Link>
+              <Link
+                href="/onboarding"
+                className="flex-1 sm:flex-none inline-flex min-h-11 items-center justify-center gap-1.5 sm:gap-2 rounded-xl sm:rounded-2xl border border-slate-200/90 bg-white px-2.5 sm:px-4 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+              >
+                <UserEditIcon className="h-4 w-4 text-teal-700 shrink-0" />
+                <span>{t("editProfile")}</span>
+              </Link>
+              <LanguageToggle className="shrink-0" />
+            </nav>
+          </div>
         </div>
       </header>
 
