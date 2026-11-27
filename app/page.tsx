@@ -282,7 +282,7 @@ export default function HomePage(): JSX.Element {
         {/* Air Audit Banner Link */}
         <section
           aria-labelledby="audit-banner-heading"
-          className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-teal-200 bg-gradient-to-r from-teal-50/80 to-emerald-50/80 p-5 shadow-xs"
+          className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-teal-200 bg-linear-to-r from-teal-50/80 to-emerald-50/80 p-5 shadow-xs"
         >
           <div className="max-w-md">
             <h2 id="audit-banner-heading" className="text-base font-bold text-teal-950 sm:text-lg">
