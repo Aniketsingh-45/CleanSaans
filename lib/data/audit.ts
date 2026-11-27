@@ -32,7 +32,7 @@ export async function auditImageWithGemini(
   base64Data: string,
   mimeType: string,
   apiKey: string = process.env.GEMINI_API_KEY ?? "",
-  model: string = process.env.GEMINI_MODEL ?? "gemini-flash-lite-latest",
+  model: string = process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
   timeoutMs: number = 15_000
 ): Promise<AuditResponse> {
   if (!apiKey) {
@@ -80,12 +80,12 @@ export async function auditImageWithGemini(
 
       if (!response.ok) {
         lastError = new Error(`Gemini API error (HTTP ${response.status})`);
-        // If quota exceeded (429) or model not found (404), fall back to gemini-flash-lite-latest on retry
+        // If quota exceeded (429) or model not found (404), fall back to default model on retry
         if (
           (response.status === 429 || response.status === 404) &&
-          activeModel !== "gemini-flash-lite-latest"
+          activeModel !== "gemini-2.5-flash"
         ) {
-          activeModel = "gemini-flash-lite-latest";
+          activeModel = "gemini-2.5-flash";
         }
         continue;
       }

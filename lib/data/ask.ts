@@ -46,7 +46,7 @@ export function getFriendlyFallback(language: "hinglish" | "hi" | "en" = "hingli
 export async function askCleanSaansWithGemini(
   input: AskRequest,
   apiKey: string = process.env.GEMINI_API_KEY ?? "",
-  model: string = process.env.GEMINI_MODEL ?? "gemini-flash-lite-latest",
+  model: string = process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
   timeoutMs: number = 10_000
 ): Promise<AskResponse> {
   if (!apiKey) {
@@ -88,12 +88,9 @@ export async function askCleanSaansWithGemini(
   try {
     let response = await attemptFetch(model);
 
-    // If quota exceeded (429) or model not found (404), retry once with gemini-flash-lite-latest
-    if (
-      (response.status === 429 || response.status === 404) &&
-      model !== "gemini-flash-lite-latest"
-    ) {
-      response = await attemptFetch("gemini-flash-lite-latest");
+    // If quota exceeded (429) or model not found (404), retry once with default model
+    if ((response.status === 429 || response.status === 404) && model !== "gemini-2.5-flash") {
+      response = await attemptFetch("gemini-2.5-flash");
     }
 
     if (!response.ok) {
