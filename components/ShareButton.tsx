@@ -1,6 +1,7 @@
 "use client";
 
 import { useSyncExternalStore, type JSX } from "react";
+import { ShareIcon, WhatsAppIcon } from "@/components/common/Icons";
 import { useT } from "@/lib/i18n";
 
 export interface ShareButtonProps {
@@ -75,7 +76,7 @@ export function ShareButton({ planData, className = "" }: ShareButtonProps): JSX
     }
   };
 
-  const buttonStyle = `inline-flex min-h-11 cursor-pointer items-center justify-center gap-2 rounded-xl bg-teal-800 px-4 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-teal-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 ${className}`;
+  const buttonStyle = `inline-flex min-h-11 cursor-pointer items-center justify-center gap-2.5 rounded-2xl bg-linear-to-r from-emerald-700 via-teal-800 to-teal-900 px-5 py-2.5 text-xs font-bold text-white shadow-md shadow-teal-950/10 transition-all hover:-translate-y-0.5 hover:shadow-lg hover:from-emerald-800 hover:to-teal-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600 ${className}`;
 
   if (canShare) {
     return (
@@ -85,7 +86,7 @@ export function ShareButton({ planData, className = "" }: ShareButtonProps): JSX
         aria-label={t("sharePlanBtn")}
         className={buttonStyle}
       >
-        <span aria-hidden="true">📤</span>
+        <ShareIcon className="h-4 w-4 text-emerald-200" />
         <span>{t("sharePlanBtn")}</span>
       </button>
     );
@@ -99,7 +100,7 @@ export function ShareButton({ planData, className = "" }: ShareButtonProps): JSX
       aria-label={t("shareOnWhatsApp")}
       className={buttonStyle}
     >
-      <span aria-hidden="true">💬</span>
+      <WhatsAppIcon className="h-4 w-4 text-emerald-300" />
       <span>{t("shareOnWhatsApp")}</span>
     </a>
   );

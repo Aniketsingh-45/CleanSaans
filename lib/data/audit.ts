@@ -32,7 +32,7 @@ export async function auditImageWithGemini(
   base64Data: string,
   mimeType: string,
   apiKey: string = process.env.GEMINI_API_KEY ?? "",
-  model: string = process.env.GEMINI_MODEL ?? "gemini-2.5-flash",
+  model: string = process.env.GEMINI_MODEL ?? "gemini-flash-lite-latest",
   timeoutMs: number = 15_000
 ): Promise<AuditResponse> {
   if (!apiKey) {
@@ -64,12 +64,12 @@ export async function auditImageWithGemini(
     },
   };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
-
+  let activeModel = model;
   let lastError: Error | null = null;
 
   // Try initial attempt + 1 retry (2 attempts total)
   for (let attempt = 1; attempt <= 2; attempt++) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -80,6 +80,13 @@ export async function auditImageWithGemini(
 
       if (!response.ok) {
         lastError = new Error(`Gemini API error (HTTP ${response.status})`);
+        // If quota exceeded (429) or model not found (404), fall back to gemini-flash-lite-latest on retry
+        if (
+          (response.status === 429 || response.status === 404) &&
+          activeModel !== "gemini-flash-lite-latest"
+        ) {
+          activeModel = "gemini-flash-lite-latest";
+        }
         continue;
       }
 

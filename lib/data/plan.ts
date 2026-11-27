@@ -8,7 +8,7 @@ import { bestWindow, type BestWindowResult } from "../engine/window";
 
 export const PLAN_CACHE_TTL_MS = 10 * 60 * 1000;
 export const GEMINI_TIMEOUT_MS = 10_000;
-export const DEFAULT_GEMINI_MODEL = "gemini-2.5-flash";
+export const DEFAULT_GEMINI_MODEL = "gemini-flash-lite-latest";
 
 export const PlanInputSchema = z.object({
   city: CityQuerySchema,
@@ -415,10 +415,11 @@ export async function callGeminiForHinglishText(
     },
   };
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(model)}:generateContent?key=${encodeURIComponent(apiKey)}`;
+  let activeModel = model;
 
   // Try up to 2 attempts (initial + 1 retry)
   for (let attempt = 1; attempt <= 2; attempt++) {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(activeModel)}:generateContent?key=${encodeURIComponent(apiKey)}`;
     try {
       const response = await fetch(url, {
         method: "POST",
@@ -428,6 +429,12 @@ export async function callGeminiForHinglishText(
       });
 
       if (!response.ok) {
+        if (
+          (response.status === 429 || response.status === 404) &&
+          activeModel !== DEFAULT_GEMINI_MODEL
+        ) {
+          activeModel = DEFAULT_GEMINI_MODEL;
+        }
         continue;
       }
 

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, type JSX } from "react";
+import { AlertTriangleIcon } from "@/components/common/Icons";
 
 export interface ErrorBoundaryProps {
   error: Error & { digest?: string };
@@ -26,9 +27,7 @@ export default function GlobalError({ error, reset }: ErrorBoundaryProps): JSX.E
         aria-live="assertive"
         className="max-w-md rounded-2xl border border-rose-200 bg-white p-8 shadow-xs"
       >
-        <span className="text-4xl" aria-hidden="true">
-          ⚠️
-        </span>
+        <AlertTriangleIcon className="h-10 w-10 text-rose-600 mx-auto" />
         <h1 className="mt-4 text-xl font-bold tracking-tight text-rose-950 sm:text-2xl">
           Kuch Garbar Hui
         </h1>

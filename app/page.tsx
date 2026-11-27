@@ -5,6 +5,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useRef, useState, type JSX } from "react";
 import { AqiCard, ExposureComparison, ShareButton } from "@/components";
+import {
+  ArrowRightIcon,
+  CameraIcon,
+  LeafIcon,
+  MicroscopeIcon,
+  StethoscopeIcon,
+  UserEditIcon,
+} from "@/components/common/Icons";
 import type { AqiResponse } from "@/lib/data/aqi";
 import type { PlanResponse } from "@/lib/data/plan";
 import { LanguageToggle, useT } from "@/lib/i18n";
@@ -159,7 +167,7 @@ export default function HomePage(): JSX.Element {
   }
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-4 py-6 sm:px-6">
+    <div className="flex min-h-screen flex-col bg-slate-50/50">
       {/* 0) Skip to Content link */}
       <a
         href="#main-content"
@@ -168,38 +176,114 @@ export default function HomePage(): JSX.Element {
         {t("skipToContent")}
       </a>
 
-      {/* 1) Header */}
-      <header className="flex flex-wrap items-center justify-between gap-4 border-b border-teal-100 pb-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
-            {t("appName")}
-          </h1>
-          <p className="text-sm font-medium text-teal-800">{t("tagline")}</p>
-        </div>
+      {/* 1) Pure Website Full-Width Header */}
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/85 backdrop-blur-xl shadow-xs">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-3.5 sm:px-6 lg:px-8">
+          <div className="flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-linear-to-br from-teal-700 to-emerald-800 text-white shadow-md shadow-teal-950/20">
+              <LeafIcon className="h-5 w-5" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">
+                  {t("appName")}
+                </h1>
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-300/80 bg-emerald-50 px-2.5 py-0.5 text-[10px] font-extrabold text-emerald-950">
+                  <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-600" />
+                  Live Monitored
+                </span>
+              </div>
+              <p className="text-xs font-semibold text-teal-800">{t("tagline")}</p>
+            </div>
+          </div>
 
-        <nav aria-label="Quick actions" className="flex flex-wrap items-center gap-3">
-          <Link
-            href="/audit"
-            className="inline-flex min-h-11 items-center rounded-xl border border-teal-700/20 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-900 transition-colors hover:bg-teal-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
-          >
-            📸 {t("auditNav")}
-          </Link>
-          <Link
-            href="/onboarding"
-            className="inline-flex min-h-11 items-center rounded-xl border border-teal-700/20 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-900 transition-colors hover:bg-teal-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
-          >
-            ✏️ {t("editProfile")}
-          </Link>
-          <LanguageToggle />
-        </nav>
+          <nav aria-label="Quick actions" className="flex items-center gap-3">
+            <Link
+              href="/audit"
+              className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-slate-200/90 bg-white/90 px-4 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+            >
+              <CameraIcon className="h-4 w-4 text-teal-700" />
+              <span>{t("auditNav")}</span>
+            </Link>
+            <Link
+              href="/onboarding"
+              className="inline-flex min-h-11 items-center gap-2 rounded-2xl border border-slate-200/90 bg-white/90 px-4 py-2 text-xs font-bold text-slate-800 shadow-2xs transition-all hover:bg-slate-50 hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+            >
+              <UserEditIcon className="h-4 w-4 text-teal-700" />
+              <span>{t("editProfile")}</span>
+            </Link>
+            <LanguageToggle />
+          </nav>
+        </div>
       </header>
 
       {/* Main Content Area */}
-      <main id="main-content" className="flex-1 space-y-6 py-6">
-        {/* 2) AQI Card */}
-        <AqiCard city={profile.city} onDataLoaded={setAqiData} />
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-4 py-8 sm:px-6 lg:px-8 space-y-8"
+      >
+        {/* Tier 1: Twin Hero Metric Cards (Air Quality + Cigarette Exposure Reduction) */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 items-stretch">
+          {/* Card 1: Live City AQI & CPCB Telemetry */}
+          <div className="h-full">
+            <AqiCard city={profile.city} onDataLoaded={setAqiData} />
+          </div>
 
-        {/* 3) SafeWindow Component */}
+          {/* Card 2: Impact Simulation & Cigarette Reduction */}
+          <div className="h-full">
+            {planData ? (
+              <ExposureComparison
+                baseline={planData.baseline}
+                plan={planData.plan}
+                percentSaved={planData.percentSaved}
+              />
+            ) : planLoading ? (
+              <section
+                role="status"
+                aria-label={t("planLoading")}
+                className="h-full flex flex-col justify-between rounded-3xl border border-slate-200/80 bg-white/95 p-6 shadow-xl shadow-teal-950/5 motion-reduce:animate-none animate-pulse sm:p-7"
+              >
+                <div>
+                  <div className="h-5 w-40 rounded-full bg-slate-200" />
+                  <div className="mt-3 h-7 w-64 rounded-xl bg-slate-200" />
+                  <div className="mt-2 h-4 w-52 rounded-md bg-slate-200" />
+                </div>
+                <div className="my-6 space-y-4">
+                  <div className="h-16 w-full rounded-2xl bg-slate-100" />
+                  <div className="h-16 w-full rounded-2xl bg-slate-100" />
+                </div>
+                <div className="h-4 w-32 rounded-md bg-slate-200" />
+                <span className="sr-only">{t("planLoading")}</span>
+              </section>
+            ) : planError ? (
+              <section
+                role="alert"
+                aria-labelledby="plan-error-heading"
+                className="h-full flex flex-col justify-between rounded-3xl border border-rose-200 bg-rose-50/70 p-6 shadow-xl shadow-teal-950/5 sm:p-7"
+              >
+                <div>
+                  <div className="inline-flex items-center gap-1.5 rounded-full border border-rose-200 bg-rose-100/80 px-3 py-0.5 text-xs font-bold text-rose-900">
+                    Plan Error
+                  </div>
+                  <h2 id="plan-error-heading" className="mt-3 text-lg font-bold text-rose-950">
+                    {planError}
+                  </h2>
+                </div>
+                <div className="mt-4">
+                  <button
+                    type="button"
+                    onClick={handlePlanRetry}
+                    className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-xl bg-rose-700 px-5 py-2 text-xs font-bold text-white shadow-xs transition-colors hover:bg-rose-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-600 focus-visible:ring-offset-2"
+                  >
+                    {t("planRetry")}
+                  </button>
+                </div>
+              </section>
+            ) : null}
+          </div>
+        </div>
+
+        {/* Tier 2: 24-Hour Diurnal Safe Window Forecast */}
         {aqiData?.hourly && aqiData.hourly.length > 0 && (
           <SafeWindow
             hourly={aqiData.hourly}
@@ -211,113 +295,128 @@ export default function HomePage(): JSX.Element {
           />
         )}
 
-        {/* Part (b): Plan Loading Skeleton */}
-        {planLoading && !planData && (
-          <section
-            role="status"
-            aria-label={t("planLoading")}
-            className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-xs motion-reduce:animate-none animate-pulse"
-          >
-            <div className="h-6 w-48 rounded-md bg-slate-200" />
-            <div className="h-4 w-64 rounded-md bg-slate-200" />
-            <div className="mt-4 h-16 w-full rounded-xl bg-slate-100" />
-            <div className="h-16 w-full rounded-xl bg-slate-100" />
-            <div className="h-16 w-full rounded-xl bg-slate-100" />
-            <span className="sr-only">{t("planLoading")}</span>
-          </section>
-        )}
-
-        {/* Part (b): Plan Error State with Retry */}
-        {planError && !planLoading && (
-          <section
-            role="alert"
-            aria-labelledby="plan-error-heading"
-            className="rounded-2xl border border-rose-200 bg-rose-50/70 p-6 shadow-xs"
-          >
-            <h2 id="plan-error-heading" className="text-base font-semibold text-rose-950">
-              {planError}
-            </h2>
-            <button
-              type="button"
-              onClick={handlePlanRetry}
-              className="mt-4 inline-flex min-h-11 cursor-pointer items-center justify-center rounded-lg bg-rose-700 px-4 py-2 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-rose-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-600 focus-visible:ring-offset-2"
-            >
-              {t("planRetry")}
-            </button>
-          </section>
-        )}
-
-        {/* Part (b): Exposure Comparison ("Bina plan vs Plan ke saath") */}
+        {/* Tier 3: Personalized Daily Action Plan (Full-Width with Integrated Share Button) */}
         {planData && (
-          <ExposureComparison
-            baseline={planData.baseline}
-            plan={planData.plan}
-            percentSaved={planData.percentSaved}
+          <DailyPlan
+            actions={planData.actions}
+            source={planData.source}
+            headerRight={<ShareButton planData={planData} />}
           />
         )}
 
-        {/* Share Button for the current plan */}
-        {planData && (
-          <div className="flex justify-end">
-            <ShareButton planData={planData} />
+        {/* Tier 4: AI Air Intelligence Hub (Vision AI Audit Lab + Ask CleanSaans AI) */}
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-12 items-stretch">
+          {/* Card A: Vision AI Photo Audit Lab (5 cols) */}
+          <div className="lg:col-span-5 h-full">
+            <section
+              aria-labelledby="audit-banner-heading"
+              className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-linear-to-br from-teal-50/90 via-emerald-50/60 to-white p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md transition-all hover:border-teal-400 sm:p-7 h-full flex flex-col justify-between"
+            >
+              <div>
+                <div className="flex items-center justify-between gap-3 border-b border-slate-100/80 pb-4">
+                  <div className="inline-flex items-center gap-1.5 rounded-full border border-teal-200/80 bg-white/90 px-3 py-0.5 text-xs font-bold text-teal-900 shadow-2xs">
+                    <CameraIcon className="h-3.5 w-3.5 text-teal-700" />
+                    <span>Vision AI Lab</span>
+                  </div>
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-teal-800">
+                    Instant Camera Audit
+                  </span>
+                </div>
+
+                <div className="mt-5">
+                  <h2
+                    id="audit-banner-heading"
+                    className="text-xl font-extrabold tracking-tight text-slate-950 sm:text-2xl"
+                  >
+                    {t("auditHomeBannerTitle")}
+                  </h2>
+                  <p className="mt-2 text-xs font-medium leading-relaxed text-slate-600 sm:text-sm">
+                    {t("auditHomeBannerDesc")}
+                  </p>
+                </div>
+
+                {/* Audit feature indicators */}
+                <div className="mt-5 grid grid-cols-2 gap-2.5">
+                  <div className="rounded-xl border border-teal-100 bg-white/80 p-2.5 shadow-2xs">
+                    <span className="block text-[11px] font-bold text-teal-900">
+                      Rasoi Ka Dhuan
+                    </span>
+                    <span className="text-[10px] text-slate-500">Exhaust & gas leak</span>
+                  </div>
+                  <div className="rounded-xl border border-teal-100 bg-white/80 p-2.5 shadow-2xs">
+                    <span className="block text-[11px] font-bold text-teal-900">Khidki & Gate</span>
+                    <span className="text-[10px] text-slate-500">Seal gaps & cracks</span>
+                  </div>
+                  <div className="rounded-xl border border-teal-100 bg-white/80 p-2.5 shadow-2xs">
+                    <span className="block text-[11px] font-bold text-teal-900">
+                      Dhuan & Incense
+                    </span>
+                    <span className="text-[10px] text-slate-500">Agarbatti & coil</span>
+                  </div>
+                  <div className="rounded-xl border border-teal-100 bg-white/80 p-2.5 shadow-2xs">
+                    <span className="block text-[11px] font-bold text-teal-900">
+                      Ventilation Flow
+                    </span>
+                    <span className="text-[10px] text-slate-500">Taazi hawa index</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-slate-100/80">
+                <Link
+                  href="/audit"
+                  className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-2xl bg-linear-to-r from-teal-800 to-teal-950 px-6 py-3 text-sm font-extrabold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-teal-900 hover:to-slate-950 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+                >
+                  <span>{t("auditHomeBannerBtn")}</span>
+                  <ArrowRightIcon className="h-4 w-4" />
+                </Link>
+              </div>
+            </section>
           </div>
-        )}
 
-        {/* Part (b): Daily Plan ("Aaj ka plan" with 3 sections & 5 actions) */}
-        {planData && <DailyPlan actions={planData.actions} source={planData.source} />}
+          {/* Card B: Ask CleanSaans AI Question Box (7 cols) */}
+          <div className="lg:col-span-7 h-full">
+            <AskBox className="h-full flex flex-col justify-between" />
+          </div>
+        </div>
 
-        {/* Part (c): "Ye numbers kaise nikle?" Button */}
-        <div className="flex justify-center pt-2">
+        {/* Tier 5: Transparency & Scientific Methodology */}
+        <div className="flex flex-col items-center gap-4 pt-4">
           <button
             ref={assumptionsBtnRef}
             type="button"
             onClick={() => setIsAssumptionsOpen(true)}
-            className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition-colors hover:bg-slate-50 hover:text-slate-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+            className="inline-flex min-h-11 cursor-pointer items-center gap-2 rounded-2xl border border-slate-200/90 bg-white px-6 py-2.5 text-xs font-bold text-slate-800 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md hover:border-teal-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
           >
-            <span aria-hidden="true">ℹ️</span>
+            <MicroscopeIcon className="h-4 w-4 text-teal-700" />
             <span>{t("howCalculatedBtn")}</span>
           </button>
-        </div>
 
-        {/* Air Audit Banner Link */}
-        <section
-          aria-labelledby="audit-banner-heading"
-          className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-teal-200 bg-linear-to-r from-teal-50/80 to-emerald-50/80 p-5 shadow-xs"
-        >
-          <div className="max-w-md">
-            <h2 id="audit-banner-heading" className="text-base font-bold text-teal-950 sm:text-lg">
-              📸 {t("auditHomeBannerTitle")}
-            </h2>
-            <p className="mt-1 text-xs leading-relaxed text-teal-900 sm:text-sm">
-              {t("auditHomeBannerDesc")}
-            </p>
-          </div>
-          <Link
-            href="/audit"
-            className="inline-flex min-h-11 cursor-pointer items-center justify-center rounded-xl bg-teal-900 px-5 py-2 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-teal-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-600"
+          {/* Safety Note */}
+          <section
+            aria-label={t("safetyNoteAria")}
+            className="w-full max-w-3xl rounded-2xl border border-teal-200/80 bg-teal-50/80 p-4.5 text-xs font-medium text-teal-950 shadow-2xs"
           >
-            {t("auditHomeBannerBtn")} →
-          </Link>
-        </section>
-
-        {/* Ask CleanSaans AI Question Box */}
-        <AskBox />
-
-        {/* Safety Note */}
-        <section
-          aria-label={t("safetyNoteAria")}
-          className="rounded-xl border border-teal-200 bg-teal-50/70 p-4 text-xs font-medium text-teal-950"
-        >
-          <p>{t("safetyNoteText")}</p>
-        </section>
+            <div className="flex items-start gap-3">
+              <StethoscopeIcon className="h-5 w-5 text-teal-800 shrink-0 mt-0.5" />
+              <p className="leading-relaxed">{t("safetyNoteText")}</p>
+            </div>
+          </section>
+        </div>
       </main>
 
       {/* Part (c): Footer Disclaimer & Semantic Landmark */}
       <footer
         role="contentinfo"
-        className="mt-8 border-t border-slate-200 pt-4 text-xs text-slate-600"
+        className="mt-12 border-t border-slate-200/80 bg-white py-8 text-xs text-slate-600"
       >
-        <p>{t("footerDisclaimer")}</p>
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <LeafIcon className="h-4 w-4 text-teal-700" />
+            <span className="font-bold text-slate-800">CleanSaans</span>
+          </div>
+          <p className="text-center sm:text-right max-w-xl">{t("footerDisclaimer")}</p>
+        </div>
       </footer>
 
       {/* Part (c): Accessible Assumptions Modal */}

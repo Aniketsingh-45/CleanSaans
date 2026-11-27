@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { JSX } from "react";
+import { LeafIcon } from "@/components/common/Icons";
 
 export const metadata: Metadata = {
   title: "404 - Page Not Found | CleanSaans",
@@ -14,9 +15,7 @@ export default function NotFound(): JSX.Element {
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4 text-center">
       <div className="max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-xs">
-        <span className="text-4xl" aria-hidden="true">
-          🍃
-        </span>
+        <LeafIcon className="h-10 w-10 text-teal-700 mx-auto" />
         <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-950 sm:text-3xl">
           404 - Page Nahi Mila
         </h1>
