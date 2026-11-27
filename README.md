@@ -319,7 +319,7 @@ npm run format:check
 
 ### Continuous Integration (`.github/workflows/ci.yml`)
 
-Every `push` and `pull_request` triggers automated CI running on **Node.js 20**:
+Every `push` and `pull_request` triggers automated CI running on **Node.js 22**:
 
 1. `npm ci`
 2. `npm run lint`
@@ -334,7 +334,7 @@ Every `push` and `pull_request` triggers automated CI running on **Node.js 20**:
 
 ### Prerequisites
 
-- **Node.js:** `>= 20.9.0`
+- **Node.js:** `>= 22.12.0` (LTS)
 - **npm:** `>= 10.0.0`
 
 ### 1. Clone & Install
@@ -393,7 +393,7 @@ npm start
 ### Recommended Hosting Options:
 
 - **Vercel:** Zero-configuration deployment with automatic edge caching and environment variable management.
-- **Node.js / Docker:** Standard containerized Node 20 runtime (`next build && next start`).
+- **Node.js / Docker:** Standard containerized Node 22 runtime (`next build && next start`).
 - **Reverse Proxy (Nginx / Cloudflare):** Ensure `X-Forwarded-For` header is forwarded for accurate rate limiting.
 
 ---
