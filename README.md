@@ -21,6 +21,33 @@ Instead of displaying abstract, alarming AQI numbers that leave people feeling h
 
 ---
 
+## Chosen Vertical
+
+**Challenge 6: Urban Air Quality Assistant**  
+**Persona:** An urban Indian family (parents, children under 12, elderly members, or individuals with asthma) who must commute, cook, and ventilate during severe winter smog episodes.
+
+---
+
+## Approach and Logic
+
+1. **Deterministic Numbers First:** Live hourly PM2.5 data is ingested and converted exclusively by the deterministic calculation engine ([`/lib/engine`](lib/engine)) into cigarette-equivalent exposure, out-of-pocket ₹ savings, and avoided CO₂. The LLM never calculates or modifies numbers.
+2. **Profile-Driven Rules:** Household configuration (city, sensitive members, commute mode and distance, window opening habits, air purifier ownership, and cooking fuel) selects targeted rules: ventilate during diurnal cleanest hours, keep sensitive members indoors during Poor+ hours, wear N95 masks when travel during high PM2.5 hours is unavoidable, adopt cheaper transit swaps, and prioritize free/low-cost behavioral fixes first.
+3. **Bounded Generative AI:** Gemini writes only the conversational Hinglish phrasing; every numerical value must match the deterministic engine output or the LLM response is rejected and a deterministic rule-based plan is served.
+
+---
+
+## How It Works
+
+`Onboarding (/onboarding)` → `/api/aqi` + `/api/plan` → `Safe Window slider (/lib/engine/window.ts)` → `5 actions in 3 sections (DailyPlan.tsx)` → optional `Photo Audit (/api/audit)` and `Ask CleanSaans box (/api/ask)`.
+
+---
+
+## Assumptions
+
+All exposure, financial, and environmental metrics are computed deterministically by [`/lib/engine`](lib/engine) using approximate popular-science benchmarks (Berkeley Earth ~22 µg/m³ PM2.5 over 24h ≈ 1 cigarette, EPA adult ventilation breathing multipliers, indoor infiltration factors for open/closed windows and HEPA purifiers, N95 mask filtration efficiency, and Indian transit ₹ and CO₂ factors). None of these figures constitute clinical or medical advice. For full parameter definitions, literature sources, and caveats, see the [Modeling Assumptions & Citations](#-modeling-assumptions--citations) table below.
+
+---
+
 ## ⚠️ Problem
 
 Urban residents across Delhi-NCR and northern Indian cities face recurring winter pollution crises with several key challenges:
