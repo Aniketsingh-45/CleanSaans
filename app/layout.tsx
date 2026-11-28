@@ -75,13 +75,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className="relative min-h-screen bg-clean-mesh bg-slate-50 text-slate-900 antialiased selection:bg-teal-200 selection:text-slate-950">
+      <body className="relative min-h-screen bg-clean-mesh text-slate-900 antialiased selection:bg-teal-200 selection:text-slate-950">
         {/* Ambient Aurora glow orbs for wide desktop & laptop screens */}
         <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-96 w-[54rem] rounded-full bg-linear-to-tr from-teal-400/20 via-emerald-300/15 to-cyan-400/20 blur-3xl opacity-80" />
-          <div className="hidden lg:block absolute top-[25rem] -left-20 h-96 w-96 rounded-full bg-teal-500/12 blur-3xl" />
-          <div className="hidden lg:block absolute top-[40rem] -right-20 h-96 w-96 rounded-full bg-emerald-500/12 blur-3xl" />
-          <div className="hidden xl:block absolute top-[70rem] left-1/4 h-80 w-80 rounded-full bg-cyan-500/10 blur-3xl" />
+          <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-96 w-[54rem] rounded-full bg-linear-to-tr from-teal-400/25 via-emerald-300/20 to-cyan-400/25 blur-3xl opacity-90" />
+          <div className="hidden md:block absolute top-[20rem] -left-20 h-96 w-96 rounded-full bg-teal-500/15 blur-3xl" />
+          <div className="hidden md:block absolute top-[35rem] -right-20 h-96 w-96 rounded-full bg-emerald-500/15 blur-3xl" />
+          <div className="hidden lg:block absolute top-[65rem] left-1/3 h-80 w-80 rounded-full bg-cyan-500/12 blur-3xl" />
         </div>
         <ServiceWorkerRegister />
         <LanguageProvider>{children}</LanguageProvider>

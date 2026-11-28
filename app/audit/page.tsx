@@ -239,7 +239,7 @@ export default function AuditPage(): JSX.Element {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-3.5 py-4 sm:px-6 sm:py-6 lg:max-w-6xl xl:max-w-7xl lg:px-8">
+    <div className="flex min-h-screen flex-col w-full">
       {/* Skip to Content link */}
       <a
         href="#main-content"
@@ -248,37 +248,42 @@ export default function AuditPage(): JSX.Element {
         {t("skipToContent")}
       </a>
 
-      {/* Header */}
-      <header className="sticky top-0 z-30 -mx-3.5 -mt-4 mb-2 flex flex-wrap items-center justify-between gap-3 border-b border-teal-900/10 bg-white/80 px-3.5 py-3 backdrop-blur-xl sm:-mx-6 sm:-mt-6 sm:px-6 sm:py-4 lg:-mx-8 lg:px-8 shadow-xs">
-        <div>
-          <Link
-            href="/"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-800 transition-colors hover:text-teal-950"
-          >
-            <ArrowRightIcon className="rotate-180 h-3.5 w-3.5 text-teal-700" />
-            <span>{t("appName")} Home</span>
-          </Link>
-          <div className="mt-1 flex items-center gap-2">
-            <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-3xl">
-              {t("auditPageTitle")}
-            </h1>
-            <span className="inline-flex items-center gap-1 rounded-full border border-teal-300/80 bg-teal-100/80 px-2 py-0.5 text-[10px] font-extrabold text-teal-950">
-              Vision AI
-            </span>
+      {/* Full-width Website Header */}
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-xl shadow-xs">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-3.5 py-3 sm:px-6 sm:py-4 lg:px-8">
+          <div>
+            <Link
+              href="/"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-teal-800 transition-colors hover:text-teal-950"
+            >
+              <ArrowRightIcon className="rotate-180 h-3.5 w-3.5 text-teal-700" />
+              <span>{t("appName")} Home</span>
+            </Link>
+            <div className="mt-1 flex items-center gap-2">
+              <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">
+                {t("auditPageTitle")}
+              </h1>
+              <span className="inline-flex items-center gap-1 rounded-full border border-teal-300/80 bg-teal-100/80 px-2 py-0.5 text-[10px] font-extrabold text-teal-950">
+                Vision AI
+              </span>
+            </div>
+            <p className="mt-0.5 text-xs font-semibold text-teal-800 sm:text-sm">
+              {t("auditPageSubtitle")}
+            </p>
           </div>
-          <p className="mt-0.5 text-xs font-semibold text-teal-800 sm:text-sm">
-            {t("auditPageSubtitle")}
-          </p>
-        </div>
 
-        <LanguageToggle />
+          <LanguageToggle />
+        </div>
       </header>
 
       {/* Main Content */}
-      <main id="main-content" className="flex-1 py-6">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-          {/* Left Column on Desktop: Upload Zone & Controls (Sticky on Desktop) */}
-          <div className="lg:col-span-5 xl:col-span-5 space-y-6 lg:sticky lg:top-24">
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-3.5 py-5 sm:px-6 sm:py-8 lg:px-8"
+      >
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8 lg:gap-10 items-start">
+          {/* Left Column on Laptop & Desktop / Top Section on Mobile: Upload Zone & Controls (Sticky on Desktop) */}
+          <div className="md:col-span-5 lg:col-span-5 space-y-6 md:sticky md:top-24">
             {/* Privacy Note */}
             <section
               aria-label="Privacy notice"
@@ -380,7 +385,7 @@ export default function AuditPage(): JSX.Element {
           </div>
 
           {/* Right Column on Desktop: Vision Station (Guidelines, Live Scan, or Diagnostic Report) */}
-          <div className="lg:col-span-7 xl:col-span-7 space-y-6">
+          <div className="md:col-span-7 lg:col-span-7 space-y-6">
             {/* Aria-Live Loading Notification */}
             <div aria-live="polite" aria-atomic="true" className="sr-only">
               {loading && t("auditAnalyzingText")}
@@ -514,11 +519,11 @@ export default function AuditPage(): JSX.Element {
               </section>
             )}
 
-            {/* Desktop-Visible Educational Guide (Shown when no active scan result) */}
+            {/* Laptop & Desktop Educational Guide (Shown when no active scan result) */}
             {!auditResult && !loading && !error && (
               <section
                 aria-label="Vision AI Guidance"
-                className="hidden lg:block rounded-3xl border border-teal-900/10 bg-white/95 p-7 shadow-xl shadow-teal-950/5 backdrop-blur-md space-y-6"
+                className="hidden md:block rounded-3xl border border-teal-900/10 bg-white/95 p-7 shadow-xl shadow-teal-950/5 backdrop-blur-md space-y-6"
               >
                 <div>
                   <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-teal-200/80 bg-teal-50/90 px-3 py-0.5 text-xs font-extrabold text-teal-950">
@@ -591,12 +596,14 @@ export default function AuditPage(): JSX.Element {
         </div>
       </main>
 
-      {/* Footer */}
+      {/* Full-width Footer */}
       <footer
         role="contentinfo"
-        className="mt-8 border-t border-slate-200 pt-4 text-xs text-slate-600"
+        className="mt-12 w-full border-t border-slate-200/80 bg-white/70 py-6"
       >
-        <p>{t("footerDisclaimer")}</p>
+        <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8 text-xs text-slate-600">
+          <p>{t("footerDisclaimer")}</p>
+        </div>
       </footer>
     </div>
   );

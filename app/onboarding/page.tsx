@@ -126,7 +126,7 @@ export default function OnboardingPage(): JSX.Element {
   };
 
   return (
-    <div className="mx-auto flex min-h-screen max-w-2xl flex-col px-3.5 py-4 sm:px-6 sm:py-6 lg:max-w-6xl xl:max-w-7xl lg:px-8">
+    <div className="flex min-h-screen flex-col w-full">
       {/* Skip to Content link */}
       <a
         href="#main-content"
@@ -135,27 +135,34 @@ export default function OnboardingPage(): JSX.Element {
         {t("skipToContent")}
       </a>
 
-      <header className="sticky top-0 z-30 -mx-3.5 -mt-4 mb-2 flex flex-wrap items-center justify-between gap-3 border-b border-teal-900/10 bg-white/80 px-3.5 py-3 backdrop-blur-xl sm:-mx-6 sm:-mt-6 sm:px-6 sm:py-4 lg:-mx-8 lg:px-8 shadow-xs">
-        <div className="flex items-center gap-2.5 sm:gap-3">
-          <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-600 to-emerald-700 text-white shadow-md shadow-teal-900/20">
-            <LeafIcon className="h-4 w-4 sm:h-5 sm:w-5 text-white" />
+      {/* Full-width Website Header */}
+      <header className="sticky top-0 z-40 w-full border-b border-slate-200/80 bg-white/90 backdrop-blur-xl shadow-xs">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-3.5 py-3 sm:px-6 sm:py-4 lg:px-8">
+          <div className="flex items-center gap-2.5 sm:gap-3">
+            <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-xl sm:rounded-2xl bg-linear-to-br from-teal-700 to-emerald-800 text-white shadow-md shadow-teal-950/20">
+              <LeafIcon className="h-4.5 w-4.5 sm:h-5 sm:w-5 text-white" />
+            </div>
+            <div>
+              <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-2xl">
+                {t("appName")}
+              </h1>
+              <p className="text-[11px] sm:text-xs font-semibold text-teal-800">{t("tagline")}</p>
+            </div>
           </div>
-          <div>
-            <h1 className="text-xl font-black tracking-tight text-slate-950 sm:text-3xl">
-              {t("appName")}
-            </h1>
-            <p className="text-[11px] sm:text-xs font-semibold text-teal-800">{t("tagline")}</p>
-          </div>
+          <nav aria-label="Language selection">
+            <LanguageToggle />
+          </nav>
         </div>
-        <nav aria-label="Language selection">
-          <LanguageToggle />
-        </nav>
       </header>
 
-      <main id="main-content" className="flex-1 py-6">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
-          {/* Left Column on Desktop / Top Section on Mobile: Title & Trust Rail */}
-          <div className="lg:col-span-5 xl:col-span-4 lg:sticky lg:top-24 space-y-5">
+      {/* Main Content Area */}
+      <main
+        id="main-content"
+        className="mx-auto w-full max-w-7xl flex-1 px-3.5 py-5 sm:px-6 sm:py-8 lg:px-8"
+      >
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8 lg:gap-10 items-start">
+          {/* Left Column on Laptop & Desktop / Top Section on Mobile: Title & Calibration Station */}
+          <div className="md:col-span-5 lg:col-span-4 md:sticky md:top-24 space-y-5">
             <div>
               <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-teal-200/80 bg-teal-50/90 px-3 py-0.5 text-xs font-bold text-teal-900 shadow-2xs">
                 <ShieldCheckIcon className="h-3.5 w-3.5 text-teal-700" />
@@ -178,8 +185,8 @@ export default function OnboardingPage(): JSX.Element {
               <p className="leading-relaxed">{t("privacyNote")}</p>
             </aside>
 
-            {/* Desktop-only Calibration Insights Card */}
-            <div className="hidden lg:block rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md">
+            {/* Laptop & Desktop Calibration Insights Card */}
+            <div className="hidden md:block rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md">
               <h3 className="text-xs font-extrabold uppercase tracking-wider text-teal-950 flex items-center gap-2">
                 <SparklesIcon className="h-4 w-4 text-teal-700" />
                 <span>Why Profile Calibration Matters</span>
@@ -229,8 +236,8 @@ export default function OnboardingPage(): JSX.Element {
             </div>
           </div>
 
-          {/* Right Column on Desktop / Main Form: Structured Fields */}
-          <div className="lg:col-span-7 xl:col-span-8">
+          {/* Right Column: Form Fields */}
+          <div className="md:col-span-7 lg:col-span-8">
             <form onSubmit={handleSubmit} noValidate className="space-y-6">
               {/* Section 1: City */}
               <fieldset className="relative overflow-hidden rounded-3xl border border-teal-900/10 bg-white/95 p-6 shadow-xl shadow-teal-950/5 backdrop-blur-md">
@@ -570,8 +577,10 @@ export default function OnboardingPage(): JSX.Element {
         </div>
       </main>
 
-      <footer className="mt-8 border-t border-slate-200 pt-4 text-xs text-slate-600">
-        {t("footerDisclaimer")}
+      <footer className="mt-12 w-full border-t border-slate-200/80 bg-white/70 py-6">
+        <div className="mx-auto max-w-7xl px-3.5 sm:px-6 lg:px-8 text-xs text-slate-600">
+          {t("footerDisclaimer")}
+        </div>
       </footer>
     </div>
   );
