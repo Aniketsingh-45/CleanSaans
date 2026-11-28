@@ -290,6 +290,31 @@ describe("bestWindow - edge cases, invalid inputs, and ties", () => {
     expect(sensitive.avoidIfPossible).toBe(true);
     expect(sensitive.advice).toContain("avoid karein");
   });
+
+  it("handles overnight windows spanning across midnight (e.g. 22:00 to 04:00)", () => {
+    const hourly = new Array(24).fill(250);
+    // Midnight (01:00) is clean (30)
+    hourly[1] = 30;
+    hourly[2] = 30;
+
+    const res = bestWindow(hourly, 2, 22, 4, "walk");
+    expect(res.startHour).toBe(1);
+    expect(res.cost.low).toBeLessThan(res.baselineCost.low);
+  });
+
+  it("supports parameter ordering with chosenStartHour as 5th argument", () => {
+    const hourly = new Array(24).fill(200);
+    // Hour 7 is high (350), Hour 11-12 is low (50)
+    hourly[7] = 350;
+    hourly[8] = 350;
+    hourly[11] = 50;
+    hourly[12] = 50;
+
+    const res = bestWindow(hourly, 2, 6, 18, 7, "exercise", { hasSensitive: true });
+
+    expect(res.baselineCost).toEqual(costOfOuting(hourly, 7, 2, "exercise", "outdoor"));
+    expect(res.saved.low).toBeGreaterThan(0);
+  });
 });
 
 function round1(n: number): number {

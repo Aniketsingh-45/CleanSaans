@@ -67,6 +67,67 @@ describe("AqiCard Component", () => {
     expect(screen.getByText(/5 min pehle update hua/i)).toBeInTheDocument();
   });
 
+  it("calls onDataLoaded callback when data is fetched", async () => {
+    const onDataLoaded = vi.fn();
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => mockAqiResponse,
+    } as Response);
+
+    render(
+      <LanguageProvider>
+        <AqiCard city="Delhi" onDataLoaded={onDataLoaded} />
+      </LanguageProvider>
+    );
+
+    await waitFor(() => {
+      expect(onDataLoaded).toHaveBeenCalledWith(mockAqiResponse);
+    });
+  });
+
+  it("formats relative time correctly for <1 minute ago and hours ago", async () => {
+    const justNowResponse: AqiResponse = {
+      ...mockAqiResponse,
+      updatedAt: new Date().toISOString(),
+    };
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => justNowResponse,
+    } as Response);
+
+    const { rerender } = render(
+      <LanguageProvider>
+        <AqiCard city="Delhi" />
+      </LanguageProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/abhi update hua/i)).toBeInTheDocument();
+    });
+
+    // 2 hours ago
+    const hoursAgoResponse: AqiResponse = {
+      ...mockAqiResponse,
+      updatedAt: new Date(Date.now() - 2 * 3600_000).toISOString(),
+    };
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValue({
+      ok: true,
+      json: async () => hoursAgoResponse,
+    } as Response);
+
+    rerender(
+      <LanguageProvider>
+        <AqiCard city="Noida" />
+      </LanguageProvider>
+    );
+
+    await waitFor(() => {
+      expect(screen.getByText(/2 ghante pehle update hua/i)).toBeInTheDocument();
+    });
+  });
+
   it("displays 'Cached data' badge when source is 'cached'", async () => {
     const cachedResponse: AqiResponse = {
       ...mockAqiResponse,

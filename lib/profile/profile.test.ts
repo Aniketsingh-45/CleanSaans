@@ -1,3 +1,4 @@
+import { act, renderHook } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   clearProfile,
@@ -5,6 +6,7 @@ import {
   loadProfile,
   PROFILE_STORAGE_KEY,
   saveProfile,
+  useProfile,
   UserProfileSchema,
   type UserProfile,
 } from "./profile";
@@ -95,5 +97,22 @@ describe("UserProfile & Storage Helpers", () => {
 
     clearProfile();
     expect(loadProfile()).toBeNull();
+  });
+
+  it("useProfile hook reactively updates when profile is saved or cleared", () => {
+    const { result } = renderHook(() => useProfile());
+    expect(result.current).toBeNull();
+
+    act(() => {
+      saveProfile(sampleProfile);
+    });
+
+    expect(result.current).toEqual(sampleProfile);
+
+    act(() => {
+      clearProfile();
+    });
+
+    expect(result.current).toBeNull();
   });
 });

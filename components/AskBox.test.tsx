@@ -160,4 +160,137 @@ describe("AskBox Component", () => {
     expect(screen.queryByText(/mask lagana zaroori hai\./i)).not.toBeInTheDocument();
     expect(screen.getByLabelText(/apna sawaal yahan likhein/i)).toHaveValue("");
   });
+
+  it("renders all three suggested quick-question chips and clicking one populates the textarea", () => {
+    render(
+      <LanguageProvider>
+        <AskBox />
+      </LanguageProvider>
+    );
+
+    // All three suggested prompts are rendered
+    expect(screen.getByText("Subah exercise kab karein?")).toBeInTheDocument();
+    expect(screen.getByText("Kya bacchon ke liye N95 zaroori hai?")).toBeInTheDocument();
+    expect(screen.getByText("Ghar ka dhuan kaise kam karein?")).toBeInTheDocument();
+
+    // Clicking a chip populates the textarea
+    fireEvent.click(screen.getByText("Kya bacchon ke liye N95 zaroori hai?"));
+    const textarea = screen.getByLabelText(/apna sawaal yahan likhein/i);
+    expect(textarea).toHaveValue("Kya bacchon ke liye N95 zaroori hai?");
+
+    // Submit button should now be enabled
+    expect(screen.getByRole("button", { name: /sawaal poochein/i })).not.toBeDisabled();
+  });
+
+  it("renders FormattedAnswer with bold+content lines (**Topic:** rest pattern)", async () => {
+    const boldAnswer =
+      "**N95 Mask:** Bacchon ke liye zaroori hai peak hours mein.\n**Ventilation:** Dopahar 12-3 baje khidki khol sakte hain.";
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ answer: boldAnswer, source: "ai" }),
+    } as Response);
+
+    render(
+      <LanguageProvider>
+        <AskBox />
+      </LanguageProvider>
+    );
+
+    const textarea = screen.getByLabelText(/apna sawaal yahan likhein/i);
+    fireEvent.change(textarea, { target: { value: "N95 mask zaroori hai?" } });
+    fireEvent.click(screen.getByRole("button", { name: /sawaal poochein/i }));
+
+    await waitFor(() => {
+      // Bold topic rendered as <strong>N95 Mask:</strong> — text may be split across elements
+      // Use getAllByText with substring matching to find the strong element
+      const boldElements = screen.getAllByText(/n95 mask/i);
+      expect(boldElements.length).toBeGreaterThan(0);
+      expect(
+        screen.getByText(/bacchon ke liye zaroori hai peak hours mein\./i)
+      ).toBeInTheDocument();
+    });
+  });
+
+  it("renders FormattedAnswer with bullet lines (- pattern) and shows fallback badge", async () => {
+    const bulletAnswer =
+      "Kuch tips:\n- Subah bahar mat jayein\n- N95 mask pehnein\n- Ghar ki khidki band rakhein";
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ answer: bulletAnswer, source: "fallback" }),
+    } as Response);
+
+    render(
+      <LanguageProvider>
+        <AskBox />
+      </LanguageProvider>
+    );
+
+    const textarea = screen.getByLabelText(/apna sawaal yahan likhein/i);
+    fireEvent.change(textarea, { target: { value: "Tips do?" } });
+    fireEvent.click(screen.getByRole("button", { name: /sawaal poochein/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/subah bahar mat jayein/i)).toBeInTheDocument();
+      expect(screen.getByText(/n95 mask pehnein/i)).toBeInTheDocument();
+    });
+
+    // Fallback badge shown
+    expect(screen.getByText(/fallback/i)).toBeInTheDocument();
+  });
+
+  it("filters out '*note:' disclaimer lines appended by Gemini from FormattedAnswer output", async () => {
+    // Gemini sometimes appends *Note: ... lines — these should be stripped
+    const answerWithNote =
+      "N95 mask pehnein bahar jaane se pehle.\n*Note: This is an AI answer, not medical advice.";
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ answer: answerWithNote, source: "ai" }),
+    } as Response);
+
+    render(
+      <LanguageProvider>
+        <AskBox />
+      </LanguageProvider>
+    );
+
+    const textarea = screen.getByLabelText(/apna sawaal yahan likhein/i);
+    fireEvent.change(textarea, { target: { value: "Mask tip?" } });
+    fireEvent.click(screen.getByRole("button", { name: /sawaal poochein/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/n95 mask pehnein bahar jaane se pehle\./i)).toBeInTheDocument();
+    });
+
+    // *Note: line should be filtered out by FormattedAnswer
+    expect(screen.queryByText(/this is an ai answer, not medical advice/i)).not.toBeInTheDocument();
+  });
+
+  it("renders numbered list items (1. pattern) in FormattedAnswer", async () => {
+    const numberedAnswer =
+      "1. Subah 11 baje bahar jayein\n2. N95 mask pehnein\n3. Kam der ruko bahar";
+
+    vi.spyOn(globalThis, "fetch").mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({ answer: numberedAnswer, source: "ai" }),
+    } as Response);
+
+    render(
+      <LanguageProvider>
+        <AskBox />
+      </LanguageProvider>
+    );
+
+    const textarea = screen.getByLabelText(/apna sawaal yahan likhein/i);
+    fireEvent.change(textarea, { target: { value: "Steps batao?" } });
+    fireEvent.click(screen.getByRole("button", { name: /sawaal poochein/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText(/subah 11 baje bahar jayein/i)).toBeInTheDocument();
+      expect(screen.getByText(/n95 mask pehnein/i)).toBeInTheDocument();
+      expect(screen.getByText(/kam der ruko bahar/i)).toBeInTheDocument();
+    });
+  });
 });

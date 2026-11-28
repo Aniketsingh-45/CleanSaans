@@ -365,4 +365,59 @@ describe("HomePage - Part (a) & Part (b)", () => {
     // Focus restored to the button
     expect(howCalculatedBtn).toHaveFocus();
   });
+
+  it("renders plan error alert and retries when retry button is clicked", async () => {
+    localStorage.setItem(PROFILE_STORAGE_KEY, JSON.stringify(DEFAULT_PROFILE));
+
+    let planAttempts = 0;
+    vi.spyOn(globalThis, "fetch").mockImplementation(async (input: string | URL | Request) => {
+      const url = String(input);
+      if (url.includes("/api/aqi")) {
+        return {
+          ok: true,
+          json: async () => mockAqi,
+        } as Response;
+      }
+      planAttempts += 1;
+      if (planAttempts === 1) {
+        return {
+          ok: false,
+          status: 500,
+        } as Response;
+      }
+      return {
+        ok: true,
+        json: async () => mockPlan,
+      } as Response;
+    });
+
+    render(
+      <LanguageProvider>
+        <HomePage />
+      </LanguageProvider>
+    );
+
+    // Wait for plan error alert to appear
+    await waitFor(
+      () => {
+        expect(screen.getByRole("alert")).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
+
+    const retryBtn = screen.getByRole("button", { name: /dobara koshish karein/i });
+    expect(retryBtn).toBeInTheDocument();
+
+    fireEvent.click(retryBtn);
+
+    // Plan loads after retry
+    await waitFor(
+      () => {
+        expect(
+          screen.getByRole("heading", { level: 2, name: /bina plan vs plan ke saath/i })
+        ).toBeInTheDocument();
+      },
+      { timeout: 3000 }
+    );
+  });
 });

@@ -148,4 +148,10 @@ describe("i18n Layer", () => {
     expect(document.documentElement.lang).toBe("en");
     expect(screen.getByTestId("tagline")).toHaveTextContent("Clean air, together.");
   });
+
+  it("provides fallback default values when useT is used outside LanguageProvider", () => {
+    render(<TestConsumer />);
+    expect(screen.getByTestId("current-lang")).toHaveTextContent("hinglish");
+    expect(screen.getByTestId("tagline")).toHaveTextContent("Saaf saans, sabke saath.");
+  });
 });

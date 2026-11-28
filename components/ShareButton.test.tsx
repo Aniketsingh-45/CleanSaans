@@ -34,7 +34,6 @@ describe("ShareButton Component", () => {
   });
 
   it("renders WhatsApp fallback link when Web Share API is not available", () => {
-    // navigator.share is not present by default in JSDOM
     render(
       <LanguageProvider>
         <ShareButton planData={mockPlanData} />
@@ -49,8 +48,6 @@ describe("ShareButton Component", () => {
     const href = shareLink.getAttribute("href") || "";
     expect(href).toContain("https://wa.me/?text=");
 
-    // Decoded text must match the required pattern:
-    // "CleanSaans ke plan se main ~X% kam pollution lunga (A -> B cigarette). Aap bhi try karo: <site url>"
     const decodedText = decodeURIComponent(href.replace("https://wa.me/?text=", ""));
     expect(decodedText).toContain(
       "CleanSaans ke plan se main ~38% kam pollution lunga (7.2-9.6 -> 4.5-6 cigarette). Aap bhi try karo:"
@@ -105,5 +102,53 @@ describe("ShareButton Component", () => {
     expect(decoded).toContain(
       "CleanSaans ke plan se main ~38% kam pollution lunga (8 -> 5 cigarette). Aap bhi try karo:"
     );
+  });
+
+  it("falls back to window.open WhatsApp when navigator.share throws a non-abort error", async () => {
+    const mockShare = vi.fn().mockRejectedValue(new Error("Share failed"));
+    Object.defineProperty(navigator, "share", {
+      value: mockShare,
+      writable: true,
+      configurable: true,
+    });
+    const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
+
+    render(
+      <LanguageProvider>
+        <ShareButton planData={mockPlanData} />
+      </LanguageProvider>
+    );
+
+    const shareButton = screen.getByRole("button", { name: /plan share karein/i });
+    fireEvent.click(shareButton);
+
+    await Promise.resolve();
+    expect(openSpy).toHaveBeenCalledTimes(1);
+    expect(openSpy.mock.calls[0]?.[0]).toContain("https://wa.me/?text=");
+    expect(openSpy.mock.calls[0]?.[1]).toBe("_blank");
+  });
+
+  it("does not open WhatsApp fallback when navigator.share is cancelled by user (AbortError)", async () => {
+    const abortError = new Error("User cancelled share");
+    abortError.name = "AbortError";
+    const mockShare = vi.fn().mockRejectedValue(abortError);
+    Object.defineProperty(navigator, "share", {
+      value: mockShare,
+      writable: true,
+      configurable: true,
+    });
+    const openSpy = vi.spyOn(window, "open").mockImplementation(() => null);
+
+    render(
+      <LanguageProvider>
+        <ShareButton planData={mockPlanData} />
+      </LanguageProvider>
+    );
+
+    const shareButton = screen.getByRole("button", { name: /plan share karein/i });
+    fireEvent.click(shareButton);
+
+    await Promise.resolve();
+    expect(openSpy).not.toHaveBeenCalled();
   });
 });
