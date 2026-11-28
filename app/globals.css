@@ -21,6 +21,30 @@ body {
   -webkit-tap-highlight-color: transparent;
 }
 
+/* CleanSaans Atmospheric Theme Background Texture */
+.bg-clean-mesh {
+  background-color: #f8fafc;
+  background-image:
+    radial-gradient(rgba(15, 118, 110, 0.075) 1px, transparent 1px),
+    radial-gradient(ellipse 90% 60% at 50% -10%, rgba(20, 184, 166, 0.12) 0%, transparent 70%),
+    radial-gradient(circle 800px at 95% 30%, rgba(16, 185, 129, 0.07) 0%, transparent 60%),
+    radial-gradient(circle 900px at 5% 65%, rgba(14, 165, 233, 0.06) 0%, transparent 60%);
+  background-size:
+    28px 28px,
+    100% 100%,
+    100% 100%,
+    100% 100%;
+  background-attachment: fixed;
+}
+
+/* Glassmorphic card surface with crisp border */
+.glass-panel {
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.85);
+}
+
 /* Eliminate 300ms mobile touch delay */
 button,
 a,

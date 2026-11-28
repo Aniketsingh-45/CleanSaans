@@ -48,6 +48,7 @@ export async function auditImageWithGemini(
     const generationConfig: Record<string, unknown> = {
       response_mime_type: "application/json",
       temperature: 0.2,
+      maxOutputTokens: 2048,
     };
     if (isThinkingModel) {
       generationConfig.thinkingConfig = { thinkingBudget: 0 };
