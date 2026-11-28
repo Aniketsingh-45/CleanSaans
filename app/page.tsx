@@ -16,7 +16,7 @@ import {
 import type { AqiResponse } from "@/lib/data/aqi";
 import type { PlanResponse } from "@/lib/data/plan";
 import { LanguageToggle, useT } from "@/lib/i18n";
-import { useProfile } from "@/lib/profile";
+import { loadProfile, useProfile } from "@/lib/profile";
 
 // Lazy-load heavy components for performance & fast FCP
 const SafeWindow = dynamic(
@@ -83,9 +83,9 @@ export default function HomePage(): JSX.Element {
   const [isAssumptionsOpen, setIsAssumptionsOpen] = useState<boolean>(false);
   const assumptionsBtnRef = useRef<HTMLButtonElement>(null);
 
-  // Redirect to onboarding if no profile exists
+  // Redirect to onboarding if no profile exists (with loadProfile fallback to prevent hydration race)
   useEffect(() => {
-    if (!profile) {
+    if (!profile && !loadProfile()) {
       router.replace("/onboarding");
     }
   }, [profile, router]);

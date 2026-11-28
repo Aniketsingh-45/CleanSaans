@@ -161,8 +161,8 @@ export default function OnboardingPage(): JSX.Element {
         className="mx-auto w-full max-w-7xl flex-1 px-3.5 py-5 sm:px-6 sm:py-8 lg:px-8"
       >
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8 lg:gap-10 items-start">
-          {/* Left Column on Laptop & Desktop / Top Section on Mobile: Title & Calibration Station */}
-          <div className="md:col-span-5 lg:col-span-4 md:sticky md:top-24 space-y-5">
+          {/* Left Column on Laptop & Desktop / Top Section on Mobile: Title & Calibration Station (Fixed/Sticky on Laptop) */}
+          <div className="md:col-span-5 lg:col-span-4 md:sticky md:top-20 md:self-start z-10 space-y-5">
             <div>
               <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-teal-200/80 bg-teal-50/90 px-3 py-0.5 text-xs font-bold text-teal-900 shadow-2xs">
                 <ShieldCheckIcon className="h-3.5 w-3.5 text-teal-700" />

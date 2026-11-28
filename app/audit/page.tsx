@@ -282,8 +282,8 @@ export default function AuditPage(): JSX.Element {
         className="mx-auto w-full max-w-7xl flex-1 px-3.5 py-5 sm:px-6 sm:py-8 lg:px-8"
       >
         <div className="grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8 lg:gap-10 items-start">
-          {/* Left Column on Laptop & Desktop / Top Section on Mobile: Upload Zone & Controls (Sticky on Desktop) */}
-          <div className="md:col-span-5 lg:col-span-5 space-y-6 md:sticky md:top-24">
+          {/* Left Column on Laptop & Desktop / Top Section on Mobile: Upload Zone & Controls (Fixed/Sticky on Desktop) */}
+          <div className="md:col-span-5 lg:col-span-5 space-y-6 md:sticky md:top-20 md:self-start z-10">
             {/* Privacy Note */}
             <section
               aria-label="Privacy notice"
@@ -307,13 +307,22 @@ export default function AuditPage(): JSX.Element {
               <div className="relative space-y-4">
                 {/* Labelled File Dropzone */}
                 <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => fileInputRef.current?.click()}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      fileInputRef.current?.click();
+                    }
+                  }}
                   onDragOver={handleDragOver}
                   onDragLeave={handleDragLeave}
                   onDrop={handleDrop}
-                  className={`rounded-2xl border-2 border-dashed p-5 text-center transition-all ${
+                  className={`rounded-2xl border-2 border-dashed p-5 text-center transition-all cursor-pointer ${
                     isDragging
                       ? "border-teal-600 bg-teal-50/90 ring-4 ring-teal-600/20 scale-[1.01]"
-                      : "border-teal-300/80 bg-linear-to-b from-teal-50/40 via-white to-slate-50/40 hover:border-teal-500"
+                      : "border-teal-300/80 bg-linear-to-b from-teal-50/40 via-white to-slate-50/40 hover:border-teal-500 hover:bg-teal-50/20"
                   }`}
                 >
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-teal-100/90 text-teal-800 shadow-inner">
